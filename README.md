@@ -1,2 +1,2 @@
 # mamacoco
-MAMACOCO is a service providing blog posts you published frequently for reminding you to remember what you have thought of
+MAMACOCO is a service often showing your blog posts and reminding what you have thought of
