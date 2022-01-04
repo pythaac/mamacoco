@@ -1,10 +1,9 @@
 /* for test */
-DROP TABLE IF EXISTS TistoryCategory;
-DROP TABLE IF EXISTS TistoryPost;
+DROP TABLE IF EXISTS Tistory_category;
+DROP TABLE IF EXISTS Tistory_post;
 DROP TABLE IF EXISTS Post;
-DROP TABLE IF EXISTS TistoryInfo;
+DROP TABLE IF EXISTS Tistory_info;
 DROP TABLE IF EXISTS Category;
-
 
 CREATE TABLE IF NOT EXISTS Category
 (
@@ -32,16 +31,16 @@ CREATE TABLE IF NOT EXISTS Post
         REFERENCES Category(cat_id)
 );
 
-CREATE TABLE IF NOT EXISTS TistoryInfo
+CREATE TABLE IF NOT EXISTS Tistory_info
 (
     tistory_blog_id         VARCHAR(64) NOT NULL,
-    tistory_blog_name       VARCHAR(256) NOT NULL,
-    tistory_access_token    TEXT NOT NULL,
+    tistory_blog_name       VARCHAR(64) NOT NULL,
+    tistory_access_token    VARCHAR(128) NOT NULL,
 
     PRIMARY KEY (tistory_blog_id)
 );
 
-CREATE TABLE IF NOT EXISTS TistoryCategory
+CREATE TABLE IF NOT EXISTS Tistory_category
 (
     tistory_cat_id          BIGINT NOT NULL,
     tistory_blog_id         VARCHAR(64) NOT NULL,
@@ -51,16 +50,16 @@ CREATE TABLE IF NOT EXISTS TistoryCategory
     PRIMARY KEY (tistory_cat_id),
 
     FOREIGN KEY (tistory_blog_id)
-        REFERENCES TistoryInfo(tistory_blog_id),
+        REFERENCES Tistory_info(tistory_blog_id),
 
     FOREIGN KEY (cat_id)
         REFERENCES Category(cat_id)
 );
 
-CREATE TABLE IF NOT EXISTS TistoryPost
+CREATE TABLE IF NOT EXISTS Tistory_post
 (
     tistory_post_id         BIGINT NOT NULL,
-    tistory_blog_id         VARCHAR(256) NOT NULL,
+    tistory_blog_id         VARCHAR(64) NOT NULL,
     post_id                 BIGINT NOT NULL,
     tistory_post_date       DATE NOT NULL,
     tistory_visibility      TINYINT NOT NULL,
@@ -68,7 +67,7 @@ CREATE TABLE IF NOT EXISTS TistoryPost
     PRIMARY KEY (tistory_post_id),
 
     FOREIGN KEY (tistory_blog_id)
-        REFERENCES TistoryInfo(tistory_blog_id),
+        REFERENCES Tistory_info(tistory_blog_id),
 
     FOREIGN KEY (post_id)
         REFERENCES Post(post_id)
