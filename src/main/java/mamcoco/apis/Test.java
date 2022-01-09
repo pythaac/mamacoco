@@ -2,6 +2,7 @@ package mamcoco.apis;
 
 import mamcoco.dao.TistoryInfo;
 import mamcoco.data.TistoryinfoRepository;
+import mamcoco.parser.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,15 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 
-import static mamcoco.MamacocoApplication.client_id;
+import static mamcoco.MamacocoApplication.blog_id;
 
 @RestController
 public class Test {
@@ -30,7 +29,7 @@ public class Test {
     public Test(TistoryinfoRepository repo, RestTemplateBuilder builder)
     {
         this.repo = repo;
-        this.info = repo.findByTistoryBlogId(client_id);
+        this.info = repo.findByTistoryBlogName(blog_id);
         this.restTemplate = builder.build();
     }
 
@@ -53,11 +52,16 @@ public class Test {
     }
 
     @GetMapping(value="/apitest")
-    public String apitest(String s)
+    public String apitest()
     {
-        final String url = "https://www.tistory.com/apis/blog/info?" +
-            "access_token=" + info.getTistoryAccessToken() +
-            "&output=statistics";
+//        final String url = "https://www.tistory.com/apis/blog/info?" +
+//            "access_token=" + info.getTistoryAccessToken() +
+//            "&output=statistics";
+
+        final String url = "https://www.tistory.com/apis/post/read?" +
+                "access_token=" + info.getTistoryAccessToken() +
+                "&blogName=" + info.getTistoryBlogName() +
+                "&postId=187";
 
         return this.restTemplate.getForObject(url, String.class);
     }
@@ -65,57 +69,9 @@ public class Test {
     @GetMapping(value="/parsingtest")
     public String parsingtest(String s)
     {
-        String result = "";
-        try {
-            String xml = this.apitest(s);
-            System.out.println("after apitest : \n" + xml);
+        XMLparser parser = new XMLparser(this.apitest());
+        parser.build();
 
-            DocumentBuilderFactory factory = DocumentBuilderFactory
-                    .newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-
-            InputStream is = new ByteArrayInputStream(xml.getBytes());
-            Document doc = builder.parse(is);
-
-            result = doc.getElementsByTagName("tistory").item(0)
-                    .getChildNodes().item(0).getTextContent();
-
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-            return "test :" + e;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "test :" + e;
-        } catch (SAXException e) {
-            e.printStackTrace();
-            return "test :" + e;
-        }
-
-        return "test : " + result;
+        return parser.into("item").get("content");
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
