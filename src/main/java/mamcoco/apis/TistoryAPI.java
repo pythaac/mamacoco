@@ -10,7 +10,7 @@ public class TistoryAPI {
     private final RestTemplate restTemplate;
 
     public TistoryAPI(TistoryInfo tistory_info){
-        this.tistory_domain = "https://www.tistory.com/apis/blog/";
+        this.tistory_domain = "https://www.tistory.com/apis/";
 
         RestTemplateBuilder builder = new RestTemplateBuilder();
         this.restTemplate = builder.build();
@@ -19,8 +19,34 @@ public class TistoryAPI {
     }
 
     public String info(){
-        String url = this.tistory_domain + "info?" +
+        String url = this.tistory_domain + "blog/info?" +
                 "access_token=" + this.tistory_info.getTistoryAccessToken();
+
+        return this.restTemplate.getForObject(url, String.class);
+    }
+
+    public String categoryList(){
+        String url = this.tistory_domain + "category/list?" +
+                "access_token=" + this.tistory_info.getTistoryAccessToken() +
+                "&blogName=" + this.tistory_info.getTistoryBlogName();
+
+        return this.restTemplate.getForObject(url, String.class);
+    }
+
+    public String postList(Integer page){
+        String url = this.tistory_domain + "post/list?" +
+                "access_token=" + this.tistory_info.getTistoryAccessToken() +
+                "&blogName=" + this.tistory_info.getTistoryBlogName() +
+                "&page=" + page.toString();
+
+        return this.restTemplate.getForObject(url, String.class);
+    }
+
+    public String post(Long postId){
+        String url = this.tistory_domain + "post/read?" +
+                "access_token=" + this.tistory_info.getTistoryAccessToken() +
+                "&blogName=" + this.tistory_info.getTistoryBlogName() +
+                "&postId=" + postId.toString();
 
         return this.restTemplate.getForObject(url, String.class);
     }
