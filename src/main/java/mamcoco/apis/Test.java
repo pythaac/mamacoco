@@ -1,36 +1,37 @@
 package mamcoco.apis;
 
+import mamcoco.dao.TistoryCategoryAll;
 import mamcoco.dao.TistoryInfo;
+import mamcoco.dao.TistoryPostAll;
+import mamcoco.data.TistoryCategoryRepository;
+import mamcoco.data.TistoryPostRepository;
 import mamcoco.data.TistoryinfoRepository;
 import mamcoco.parser.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-import javax.xml.parsers.*;
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
 
-import static mamcoco.MamacocoApplication.blog_id;
+import static mamcoco.MamacocoApplication.blog_name;
 
 @RestController
 public class Test {
     private final TistoryinfoRepository repo;
+    private final TistoryCategoryRepository catRepo;
+    private final TistoryPostRepository postRepo;
     private final TistoryInfo info;
-    private final RestTemplate restTemplate;
-
+    private final TistoryAPI api;
 
     @Autowired
-    public Test(TistoryinfoRepository repo, RestTemplateBuilder builder)
+    public Test(TistoryinfoRepository repo,TistoryCategoryRepository catRepo, TistoryPostRepository postRepo)
     {
         this.repo = repo;
-        this.info = repo.findByTistoryBlogName(blog_id);
-        this.restTemplate = builder.build();
+        this.catRepo = catRepo;
+        this.postRepo = postRepo;
+        this.info = repo.findTistoryInfoByTistoryBlogName(blog_name);
+        this.api = new TistoryAPI(info);
     }
 
     @GetMapping(value="/dbtest")
@@ -54,16 +55,7 @@ public class Test {
     @GetMapping(value="/apitest")
     public String apitest()
     {
-//        final String url = "https://www.tistory.com/apis/blog/info?" +
-//            "access_token=" + info.getTistoryAccessToken() +
-//            "&output=statistics";
-
-        final String url = "https://www.tistory.com/apis/post/read?" +
-                "access_token=" + info.getTistoryAccessToken() +
-                "&blogName=" + info.getTistoryBlogName() +
-                "&postId=187";
-
-        return this.restTemplate.getForObject(url, String.class);
+        return api.post((long) 187);
     }
 
     @GetMapping(value="/parsingtest")
@@ -73,5 +65,18 @@ public class Test {
         parser.build();
 
         return parser.into("item").get("content");
+    }
+
+    @GetMapping(value="/jointest")
+    public String jointest(String s)
+    {
+//        ArrayList<TistoryCategoryAll> list =
+//                catRepo.findTistoryCategoriesWithCategory(info.getTistoryBlogName());
+//
+//        return list.get(0).getCatId().toString();
+        ArrayList<TistoryPostAll> list =
+                postRepo.findTistoryPostsWithPost(info.getTistoryBlogName());
+
+        return list.get(0).getPostContent();
     }
 }

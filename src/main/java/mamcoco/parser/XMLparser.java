@@ -51,6 +51,14 @@ public class XMLparser {
         return this.current.getElementsByTagName(tag).item(0).getTextContent();
     }
 
+    public NodeList getList(){
+        return this.current.getChildNodes();
+    }
+
+    public String getValue(Element elt, String tag){
+        return elt.getElementsByTagName(tag).item(0).getTextContent();
+    }
+
     public void goback(){
         this.current = this.doc.getDocumentElement();
     }

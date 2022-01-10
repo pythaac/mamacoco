@@ -20,10 +20,9 @@ public class Category {
     private String catName;
 
     @Column(name="cat_parent")
-    @NotNull
     private Long catParent;
 
-    @Column(name="cat_visibile")
+    @Column(name="cat_visible")
     @NotNull
     private Integer catVisible;
 }

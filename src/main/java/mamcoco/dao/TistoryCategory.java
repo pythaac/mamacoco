@@ -2,9 +2,7 @@ package mamcoco.dao;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -19,11 +17,11 @@ public class TistoryCategory {
     @NotNull
     private String tistoryBlogName;
 
-    @Column(name="cat_id")
+    @Column(name="cat_id", insertable = false, updatable = false)
     @NotNull
     private Long catId;
 
-    @Column(name="tistory_entries")
-    @NotNull
-    private Long tistoryEntries;
+    @ManyToOne
+    @JoinColumn(name="cat_id")
+    private Category category;
 }

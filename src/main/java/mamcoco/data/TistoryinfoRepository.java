@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TistoryinfoRepository extends CrudRepository<TistoryInfo, String> {
-    TistoryInfo findByTistoryBlogName(String s);
+    TistoryInfo findTistoryInfoByTistoryBlogName(String blog_name);
 }

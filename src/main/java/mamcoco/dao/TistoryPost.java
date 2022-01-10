@@ -2,9 +2,7 @@ package mamcoco.dao;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -19,15 +17,15 @@ public class TistoryPost {
     @NotNull
     private String tistoryBlogName;
 
-    @Column(name="post_id")
-    @NotNull
-    private Long postId;
-
     @Column(name="tistory_post_date")
     @NotNull
     private String tistoryPostDate;
 
-    @Column(name="tistory_visibility")
+    @Column(name="post_id", insertable = false, updatable = false)
     @NotNull
-    private Integer tistoryVisibility;
+    private Long postId;
+
+    @ManyToOne
+    @JoinColumn(name="post_id")
+    private Post post;
 }
