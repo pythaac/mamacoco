@@ -8,10 +8,10 @@ import mamcoco.parser.XMLparser;
 import java.util.ArrayList;
 
 public class TistorySync {
-    private ArrayList<TistoryCategoryAll> catDB;
-    private ArrayList<TistoryCategoryAll> catBlog;
-    private ArrayList<TistoryPostAll> postDB;
-    private ArrayList<TistoryPostAll> postBlog;
+    private ArrayList<TistoryCategorySync> catDB;
+    private ArrayList<TistoryCategorySync> catBlog;
+    private ArrayList<TistoryPostSync> postDB;
+    private ArrayList<TistoryPostSync> postBlog;
     private final TistoryInfo info;
     private final TistoryCategoryRepository catRepo;
     private final TistoryPostRepository postRepo;
@@ -25,11 +25,11 @@ public class TistorySync {
     }
 
     public void getCatDB(){
-        this.catDB = catRepo.findTistoryCategoriesWithCategory(this.info.getTistoryBlogName());
+        this.catDB = catRepo.findTistoryCategoriesWithCategoryForSync(this.info.getTistoryBlogName());
     }
 
     public void getPostDB(){
-        this.postDB = postRepo.findTistoryPostsWithPost(this.info.getTistoryBlogName());
+        this.postDB = postRepo.findTistoryPostsWithPostForSync(this.info.getTistoryBlogName());
     }
 
     public void getCatBlog(){

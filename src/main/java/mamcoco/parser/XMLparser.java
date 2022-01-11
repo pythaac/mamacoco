@@ -17,13 +17,20 @@ public class XMLparser {
     private final String xml;
     private Document doc;
     private Element current;
+    private Element save;
 
     public XMLparser(String s)
     {
         this.xml = s;
+        this.save = null;
+        this.build();
     }
 
-    public void build(){
+    static public String getValue(Element elt, String tag){
+        return elt.getElementsByTagName(tag).item(0).getTextContent();
+    }
+
+    private void build(){
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory
                     .newInstance();
@@ -55,13 +62,11 @@ public class XMLparser {
         return this.current.getChildNodes();
     }
 
-    public String getValue(Element elt, String tag){
-        return elt.getElementsByTagName(tag).item(0).getTextContent();
-    }
-
-    public void goback(){
+    public void init(){
         this.current = this.doc.getDocumentElement();
     }
+    public void saveCurrent() { this.save = this.current; }
+    public void restoreCurrent() { if (this.save != null) this.current = this.save; }
 }
 
 

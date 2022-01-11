@@ -62,7 +62,6 @@ public class Test {
     public String parsingtest(String s)
     {
         XMLparser parser = new XMLparser(this.apitest());
-        parser.build();
 
         return parser.into("item").get("content");
     }

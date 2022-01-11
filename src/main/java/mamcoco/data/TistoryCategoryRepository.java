@@ -2,6 +2,7 @@ package mamcoco.data;
 
 import mamcoco.dao.TistoryCategory;
 import mamcoco.dao.TistoryCategoryAll;
+import mamcoco.dao.TistoryCategorySync;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -14,7 +15,7 @@ public interface TistoryCategoryRepository extends CrudRepository<TistoryCategor
     ArrayList<TistoryCategory> findTistoryCategoriesByTistoryBlogName(String tistory_blog_name);
     TistoryCategory findTistoryCategoryByTistoryCatId(Long tistory_cat_id);
 
-    @Query("select NEW mamcoco.dao.TistoryCategoryAll" +
+    @Query("select NEW TistoryCategoryAll" +
             "(t.tistoryCatId, " +
             "c.catName, " +
             "c.catParent, " +
@@ -23,4 +24,13 @@ public interface TistoryCategoryRepository extends CrudRepository<TistoryCategor
             "c.catId)" +
             "from TistoryCategory t join Category c on c.catId = t.catId where t.tistoryBlogName = :blog_name")
     ArrayList<TistoryCategoryAll> findTistoryCategoriesWithCategory(@Param("blog_name") String blog_name);
+
+    // for compare
+    @Query("select NEW TistoryCategorySync" +
+            "(t.tistoryCatId, " +
+            "c.catName, " +
+            "c.catParent, " +
+            "c.catVisible)" +
+            "from TistoryCategory t join Category c on c.catId = t.catId where t.tistoryBlogName = :blog_name")
+    ArrayList<TistoryCategorySync> findTistoryCategoriesWithCategoryForSync(@Param("blog_name") String blog_name);
 }

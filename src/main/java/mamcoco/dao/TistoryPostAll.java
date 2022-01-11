@@ -9,19 +9,10 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
-public class TistoryPostAll {
-    @Id
-    @Column(name="tistory_post_id")
-    @NotNull
-    private Long tistoryPostId;
-
+public class TistoryPostAll extends TistoryPostSync {
     @Column(name="post_id")
     @NotNull
     private Long postId;
-
-    @Column(name="cat_id")
-    @NotNull
-    private Long catId;
 
     @Column(name="post_title")
     @NotNull
@@ -35,21 +26,9 @@ public class TistoryPostAll {
     @NotNull
     private String postTags;
 
-    @Column(name="post_visible")
-    @NotNull
-    private Integer postVisible;
-
     @Column(name="post_deleted")
     @NotNull
     private Integer postDeleted;
-
-    @Column(name="tistory_blog_name")
-    @NotNull
-    private String tistoryBlogName;
-
-    @Column(name="tistory_post_date")
-    @NotNull
-    private String tistoryPostDate;
 
     public TistoryPostAll(Long tistoryPostId,
                           Long postId,
@@ -71,5 +50,9 @@ public class TistoryPostAll {
         this.postDeleted = postDeleted;
         this.tistoryBlogName = tistoryBlogName;
         this.tistoryPostDate = tistoryPostDate;
+    }
+
+    public TistoryPostAll() {
+
     }
 }
