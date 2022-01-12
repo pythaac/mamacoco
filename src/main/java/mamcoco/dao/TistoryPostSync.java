@@ -22,10 +22,6 @@ public class TistoryPostSync {
     @NotNull
     protected Integer postVisible;
 
-    @Column(name="tistory_blog_name")
-    @NotNull
-    protected String tistoryBlogName;
-
     @Column(name="tistory_post_date")
     @NotNull
     protected String tistoryPostDate;
@@ -33,12 +29,10 @@ public class TistoryPostSync {
     public TistoryPostSync(Long tistoryPostId,
                           Long catId,
                           Integer postVisible,
-                          String tistoryBlogName,
                           String tistoryPostDate){
         this.tistoryPostId =  tistoryPostId;
         this.catId = catId;
         this.postVisible = postVisible;
-        this.tistoryBlogName = tistoryBlogName;
         this.tistoryPostDate = tistoryPostDate;
     }
 

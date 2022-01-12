@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @Entity
 public class TistoryPostAll extends TistoryPostSync {
+    @Id
     @Column(name="post_id")
     @NotNull
     private Long postId;
@@ -29,6 +30,10 @@ public class TistoryPostAll extends TistoryPostSync {
     @Column(name="post_deleted")
     @NotNull
     private Integer postDeleted;
+
+    @Column(name="tistory_blog_name")
+    @NotNull
+    protected String tistoryBlogName;
 
     public TistoryPostAll(Long tistoryPostId,
                           Long postId,

@@ -2,7 +2,6 @@ package mamcoco.parser;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -13,13 +12,14 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class XMLparser {
+public class XMLParser
+{
     private final String xml;
     private Document doc;
     private Element current;
     private Element save;
 
-    public XMLparser(String s)
+    public XMLParser(String s)
     {
         this.xml = s;
         this.save = null;
@@ -32,24 +32,19 @@ public class XMLparser {
 
     private void build(){
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory
-                    .newInstance();
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
 
             InputStream is = new ByteArrayInputStream(xml.getBytes());
             this.doc = builder.parse(is);
             this.doc.getDocumentElement().normalize();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
+        } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
         this.current = doc.getDocumentElement();
     }
 
-    public XMLparser into(String tag){
+    public XMLParser into(String tag){
         this.current = (Element) this.current.getElementsByTagName(tag).item(0);
         return this;
     }

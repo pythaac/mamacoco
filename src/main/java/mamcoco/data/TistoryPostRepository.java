@@ -31,11 +31,10 @@ public interface TistoryPostRepository extends CrudRepository<TistoryPost, Long>
     ArrayList<TistoryPostAll> findTistoryPostsWithPost(@Param("blog_name") String blog_name);
 
     // for compare
-    @Query("select NEW TistoryPostSync" +
+    @Query("select NEW mamcoco.dao.TistoryPostSync" +
             "(t.tistoryPostId," +
             "p.catId," +
             "p.postVisible," +
-            "t.tistoryBlogName," +
             "t.tistoryPostDate)" +
             "from TistoryPost t join Post p on p.postId = t.postId where t.tistoryBlogName = :blog_name")
     ArrayList<TistoryPostSync> findTistoryPostsWithPostForSync(@Param("blog_name") String blog_name);

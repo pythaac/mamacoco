@@ -1,8 +1,6 @@
 package mamcoco.data;
 
-import mamcoco.dao.TistoryCategory;
-import mamcoco.dao.TistoryCategoryAll;
-import mamcoco.dao.TistoryCategorySync;
+import mamcoco.dao.*;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -26,7 +24,7 @@ public interface TistoryCategoryRepository extends CrudRepository<TistoryCategor
     ArrayList<TistoryCategoryAll> findTistoryCategoriesWithCategory(@Param("blog_name") String blog_name);
 
     // for compare
-    @Query("select NEW TistoryCategorySync" +
+    @Query("select NEW mamcoco.dao.TistoryCategorySync" +
             "(t.tistoryCatId, " +
             "c.catName, " +
             "c.catParent, " +

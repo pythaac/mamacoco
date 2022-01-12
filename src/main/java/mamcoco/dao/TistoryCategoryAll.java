@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @Entity
 public class TistoryCategoryAll extends TistoryCategorySync {
+    @Id
     @Column(name="cat_id")
     private Long catId;
 
