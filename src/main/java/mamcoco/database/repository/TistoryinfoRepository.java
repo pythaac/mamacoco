@@ -1,6 +1,6 @@
-package mamcoco.data;
+package mamcoco.database.repository;
 
-import mamcoco.dao.*;
+import mamcoco.database.dao.TistoryInfo;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

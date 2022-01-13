@@ -1,8 +1,8 @@
 package mamcoco.apis;
 
-import mamcoco.dao.TistoryCategory;
-import mamcoco.dao.TistoryInfo;
-import mamcoco.data.TistoryCategoryRepository;
+import mamcoco.database.dao.TistoryCategory;
+import mamcoco.database.dao.TistoryInfo;
+import mamcoco.database.repository.TistoryCategoryRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;

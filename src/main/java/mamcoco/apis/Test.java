@@ -1,9 +1,14 @@
 package mamcoco.apis;
 
-import mamcoco.dao.*;
-import mamcoco.data.*;
+import mamcoco.database.dao.TistoryInfo;
+import mamcoco.database.dao.TistoryPostAll;
+import mamcoco.database.dao.TistoryPostSync;
+import mamcoco.database.repository.TistoryCategoryRepository;
+import mamcoco.database.repository.TistoryPostRepository;
+import mamcoco.database.repository.TistoryinfoRepository;
 import mamcoco.parser.*;
-import mamcoco.sync.TistorySync;
+import mamcoco.sync.TistorySyncComparator;
+import mamcoco.sync.TistorySyncRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,10 +23,12 @@ public class Test {
     private final TistoryCategoryRepository catRepo;
     private final TistoryPostRepository postRepo;
     private final TistoryInfo info;
+
     private final TistoryAPI api;
-    private final TistorySync sync;
     private final TistoryAPIMapper mapper;
     private final TistoryXMLParser parser;
+
+    private final TistorySyncRetriever retriever;
 
     @Autowired
     public Test(TistoryinfoRepository repo,TistoryCategoryRepository catRepo, TistoryPostRepository postRepo)
@@ -30,10 +37,12 @@ public class Test {
         this.catRepo = catRepo;
         this.postRepo = postRepo;
         this.info = repo.findTistoryInfoByTistoryBlogName(blog_name);
+
         this.api = new TistoryAPI(info);
-        this.sync = new TistorySync(this.info, this.catRepo, this.postRepo);
         this.mapper = new TistoryAPIMapper(this.info, this.catRepo);
         this.parser = new TistoryXMLParser(this.mapper);
+
+        this.retriever = new TistorySyncRetriever(this.info, this.catRepo, this.postRepo);
     }
 
     @GetMapping(value="/dbtest")
@@ -84,11 +93,9 @@ public class Test {
     @GetMapping(value="/synctest")
     public String synctest(String s)
     {
-        this.sync.getCatDB();
-        this.sync.getPostDB();
-        this.sync.getCatBlog();
-        this.sync.getPostBlog();
-
-        return this.sync.test();
+        this.retriever.retrieveAll();
+        TistorySyncComparator comparator = new TistorySyncComparator(this.retriever.getData());
+        comparator.checkCategory();
+        return this.retriever.printIds() + "\n" + comparator.printIds();
     }
 }

@@ -1,4 +1,4 @@
-package mamcoco.dao;
+package mamcoco.database.dao;
 
 
 import lombok.Data;

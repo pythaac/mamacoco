@@ -1,4 +1,4 @@
-package mamcoco.dao;
+package mamcoco.database.dao;
 
 import lombok.Data;
 
@@ -34,8 +34,4 @@ public class Post {
     @Column(name="post_visible")
     @NotNull
     private Integer postVisible;
-
-    @Column(name="post_deleted")
-    @NotNull
-    private Integer postDeleted;
 }

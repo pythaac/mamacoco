@@ -1,4 +1,4 @@
-package mamcoco.dao;
+package mamcoco.database.dao;
 
 import lombok.Data;
 
@@ -27,10 +27,6 @@ public class TistoryPostAll extends TistoryPostSync {
     @NotNull
     private String postTags;
 
-    @Column(name="post_deleted")
-    @NotNull
-    private Integer postDeleted;
-
     @Column(name="tistory_blog_name")
     @NotNull
     protected String tistoryBlogName;
@@ -42,7 +38,6 @@ public class TistoryPostAll extends TistoryPostSync {
                           String postContent,
                           String postTags,
                           Integer postVisible,
-                          Integer postDeleted,
                           String tistoryBlogName,
                           String tistoryPostDate){
         this.tistoryPostId =  tistoryPostId;
@@ -52,7 +47,6 @@ public class TistoryPostAll extends TistoryPostSync {
         this.postContent =  postContent;
         this.postTags =  postTags;
         this.postVisible = postVisible;
-        this.postDeleted = postDeleted;
         this.tistoryBlogName = tistoryBlogName;
         this.tistoryPostDate = tistoryPostDate;
     }

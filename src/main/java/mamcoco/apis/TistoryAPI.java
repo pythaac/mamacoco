@@ -1,6 +1,6 @@
 package mamcoco.apis;
 
-import mamcoco.dao.*;
+import mamcoco.database.dao.TistoryInfo;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 
