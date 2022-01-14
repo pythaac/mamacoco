@@ -24,4 +24,10 @@ public class TistoryCategory {
     @ManyToOne
     @JoinColumn(name="cat_id")
     private Category category;
+
+    public TistoryCategory(Long tistoryCatId, String tistoryBlogName, Long catId){
+        this.tistoryCatId = tistoryCatId;
+        this.tistoryBlogName = tistoryBlogName;
+        this.catId = catId;
+    }
 }

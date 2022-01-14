@@ -24,4 +24,10 @@ public class Category {
     @Column(name="cat_visible")
     @NotNull
     private Integer catVisible;
+
+    public Category(String catName, Long catParent, Integer catVisible){
+        this.catName = catName;
+        this.catParent = catParent;
+        this.catVisible = catVisible;
+    }
 }

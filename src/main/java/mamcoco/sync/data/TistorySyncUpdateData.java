@@ -37,6 +37,30 @@ public class TistorySyncUpdateData
         this.postDeleteList.clear();
     }
 
+    public Integer getSizeCatCreateList(){
+        return this.catCreateList.size();
+    }
+
+    public Integer getSizeCatDeleteList(){
+        return this.catDeleteList.size();
+    }
+
+    public Integer getSizeCatUpdateList(){
+        return this.catUpdateList.size();
+    }
+
+    public Integer getSizePostCreateList(){
+        return this.postCreateList.size();
+    }
+
+    public Integer getSizePostDeleteList(){
+        return this.postDeleteList.size();
+    }
+
+    public Integer getSizePostUpdateList(){
+        return this.postUpdateList.size();
+    }
+
     // for test
     public String printIds(){
         String catCreateId = "catCreateId: {\n\t";

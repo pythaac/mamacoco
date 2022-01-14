@@ -1,5 +1,6 @@
 package mamcoco.database.repository;
 
+import mamcoco.database.dao.TistoryCategory;
 import mamcoco.database.dao.TistoryPost;
 import mamcoco.database.dao.TistoryPostAll;
 import mamcoco.database.dao.TistoryPostSync;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 public interface TistoryPostRepository extends CrudRepository<TistoryPost, Long> {
     ArrayList<TistoryPost> findTistoryPostsByTistoryBlogName(String tistory_blog_name);
     TistoryPost findTistoryPostByTistoryPostId(Long tistory_post_id);
+    ArrayList<TistoryPost> saveAll(ArrayList<TistoryPost> list);
 
     @Query("select NEW TistoryPostAll" +
             "(t.tistoryPostId," +

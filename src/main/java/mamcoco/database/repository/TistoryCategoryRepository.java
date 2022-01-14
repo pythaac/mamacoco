@@ -14,8 +14,7 @@ import java.util.ArrayList;
 public interface TistoryCategoryRepository extends CrudRepository<TistoryCategory, Long> {
     ArrayList<TistoryCategory> findTistoryCategoriesByTistoryBlogName(String tistory_blog_name);
     TistoryCategory findTistoryCategoryByTistoryCatId(Long tistory_cat_id);
-    @Override
-    TistoryCategory save(TistoryCategory cat);
+    ArrayList<TistoryCategory> saveAll(ArrayList<TistoryCategory> list);
 
     @Query("select NEW TistoryCategoryAll" +
             "(t.tistoryCatId, " +

@@ -21,6 +21,22 @@ public class TistorySyncData
         this.postBlog = new ArrayList<>();
     }
 
+    public Integer getSizeCatDB(){
+        return this.catDB.size();
+    }
+
+    public Integer getSizeCatBlog(){
+        return this.catBlog.size();
+    }
+
+    public Integer getSizePostDB(){
+        return this.postDB.size();
+    }
+
+    public Integer getSizePostBlog(){
+        return this.postBlog.size();
+    }
+
     // for test
     public String printIds(){
         String catDBId = "catDBId: {\n\t";
