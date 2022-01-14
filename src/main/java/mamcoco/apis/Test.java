@@ -72,7 +72,7 @@ public class Test {
     @GetMapping(value="/parsingtest")
     public String parsingtest(String s)
     {
-        ArrayList<TistoryPostSync> list = this.parser.getPostList(this.apitest());
+        ArrayList<TistoryPostSync> list = this.parser.getPostListSync(this.apitest());
 
         return list.get(0).toString();
     }
@@ -96,6 +96,7 @@ public class Test {
         this.retriever.retrieveAll();
         TistorySyncComparator comparator = new TistorySyncComparator(this.retriever.getData());
         comparator.checkCategory();
-        return this.retriever.printIds() + "\n" + comparator.printIds();
+        comparator.checkPost();
+        return this.retriever.getData().printIds() + "\n" + comparator.getResult().printIds();
     }
 }

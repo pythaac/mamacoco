@@ -14,14 +14,14 @@ import java.io.InputStream;
 
 public class XMLParser
 {
-    private final String xml;
-    private Document doc;
-    private Element current;
-    private Element save;
+    protected final String xml;
+    protected Document doc;
+    protected Element current;
+    protected Element save;
 
-    public XMLParser(String s)
+    public XMLParser(String xml)
     {
-        this.xml = s;
+        this.xml = xml;
         this.save = null;
         this.build();
     }

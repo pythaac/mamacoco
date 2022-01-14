@@ -83,11 +83,11 @@ public class TistoryAPIMapper
         <Description>
             For checking updated posts, $tistoryCatId is needed
     */
-    public Long mapTistoryCatId(Long cat_id){
-        return this.catMapTable.getOrDefault(cat_id, null);
+    public Long mapTistoryCatId(Long tistory_cat_id){
+        return this.catMapTable.getOrDefault(tistory_cat_id, null);
     }
 
-    private void updateCatMapTable()
+    public void updateCatMapTable()
     {
         ArrayList<TistoryCategory> catList = catRepo.findTistoryCategoriesByTistoryBlogName(this.info.getTistoryBlogName());
 

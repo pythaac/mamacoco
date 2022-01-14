@@ -2,15 +2,14 @@ package mamcoco.database.dao;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
 public class Category {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="cat_id")
     @NotNull
     private Long catId;

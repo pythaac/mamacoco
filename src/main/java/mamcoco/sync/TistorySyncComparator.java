@@ -20,6 +20,66 @@ public class TistorySyncComparator
         this.data = data;
     }
 
+    public TistorySyncUpdateData getResult(){
+        return this.result;
+    }
+
+    public void checkCategory(){
+        result.clearCat();
+
+        i_db = 0;
+        i_blog = 0;
+
+        while(i_db < getSizeCatDB() || this.i_blog < getSizeCatBlog())
+        {
+            if (this.isCatCreate()){
+                result.catCreateList.add(getCatBlog(i_blog));
+                i_blog++;
+            }
+            else if (this.isCatDelete()){
+                result.catDeleteList.add(getCatDB(i_db));
+                i_db++;
+            }
+            else if (this.isCatUpdate()){
+                result.catUpdateList.add(getCatDB(i_db));
+                i_db++;
+                i_blog++;
+            }
+            else{
+                i_db++;
+                i_blog++;
+            }
+        }
+    }
+
+    public void checkPost(){
+        result.clearPost();
+
+        i_db = 0;
+        i_blog = 0;
+
+        while(i_db < getSizePostDB() || i_blog < getSizePostBlog())
+        {
+            if (this.isPostCreate()){
+                result.postCreateList.add(getPostBlog(i_blog));
+                i_blog++;
+            }
+            else if (this.isPostDelete()){
+                result.postDeleteList.add(getPostDB(i_db));
+                i_db++;
+            }
+            else if (this.isPostUpdate()){
+                result.postUpdateList.add(getPostDB(i_db));
+                i_db++;
+                i_blog++;
+            }
+            else{
+                i_db++;
+                i_blog++;
+            }
+        }
+    }
+
     private TistoryCategorySync getCatDB(int i){
         return this.data.catDB.get(i);
     }
@@ -52,7 +112,7 @@ public class TistorySyncComparator
         return this.data.postBlog.size();
     }
 
-    public boolean isCatCreate(){
+    private boolean isCatCreate(){
         if (getSizeCatDB() <= i_db)
             return true;
         if (i_blog < getSizeCatBlog())
@@ -60,7 +120,7 @@ public class TistorySyncComparator
         return false;
     }
 
-    public boolean isCatDelete(){
+    private boolean isCatDelete(){
         if (getSizeCatDB() <= i_blog)
             return true;
         if (i_db < getSizeCatDB())
@@ -68,7 +128,7 @@ public class TistorySyncComparator
         return false;
     }
 
-    public boolean isCatUpdate(){
+    private boolean isCatUpdate(){
         if (i_blog >= getSizeCatBlog() || i_db >= getSizeCatDB())
             return false;
         if (!getCatDB(i_db).getCatName().equals(getCatBlog(i_blog).getCatName()))
@@ -80,67 +140,31 @@ public class TistorySyncComparator
         return false;
     }
 
-    public void checkCategory(){
-        result.clearCat();
-
-        i_db = 0;
-        i_blog = 0;
-
-        while(i_db < getSizeCatDB() || this.i_blog < getSizeCatBlog())
-        {
-            if (this.isCatCreate()){
-                result.catCreateList.add(getCatBlog(i_blog));
-                i_blog++;
-            }
-            else if (this.isCatDelete()){
-                result.catDeleteList.add(getCatDB(i_db));
-                i_db++;
-            }
-            else if (this.isCatUpdate()){
-                result.catUpdateList.add(getCatDB(i_db));
-                i_db++;
-                i_blog++;
-            }
-            else{
-                i_db++;
-                i_blog++;
-            }
-        }
+    private boolean isPostCreate(){
+        if (getSizePostDB() <= i_db)
+            return true;
+        if (i_db < getSizePostDB())
+            return getPostDB(i_db).getTistoryPostId() > getPostBlog(i_blog).getTistoryPostId();
+        return false;
     }
 
-    // for test
-    public String printIds(){
-        String catCreateId = "catCreateId: {\n\t";
-        String catUpdateId = "catUpdateId: {\n\t";
-        String catDeleteId = "catDeleteId: {\n\t";
-        String postCreateId = "postCreateId: {\n\t";
-        String postUpdateId = "postUpdateId: {\n\t";
-        String postDeleteId = "postDeleteId: {\n\t";
-
-        catCreateId = catCreateId + this.printCatIds(result.catCreateList) + "\n}\n";
-        catUpdateId = catUpdateId + this.printCatIds(result.catUpdateList) + "\n}\n";
-        catDeleteId = catDeleteId + this.printCatIds(result.catDeleteList) + "\n}\n";
-        postCreateId = postCreateId + this.printPostIds(result.postCreateList) + "\n}\n";
-        postUpdateId = postUpdateId + this.printPostIds(result.postUpdateList) + "\n}\n";
-        postDeleteId = postDeleteId + this.printPostIds(result.postDeleteList) + "\n}\n";
-
-
-        return catCreateId + catUpdateId + catDeleteId + postCreateId + postUpdateId + postDeleteId;
+    private boolean isPostDelete(){
+        if (getSizePostDB() <= i_blog)
+            return true;
+        if (i_db < getSizePostDB())
+            return getPostDB(i_db).getTistoryPostId() < getPostBlog(i_blog).getTistoryPostId();
+        return false;
     }
 
-    private String printPostIds(ArrayList<TistoryPostSync> list){
-        String result = "";
-        for(TistoryPostSync post : list){
-            result = result.concat(post.getTistoryPostId().toString() + " ");
-        }
-        return result;
-    }
-
-    private String printCatIds(ArrayList<TistoryCategorySync> list){
-        String result = "";
-        for(TistoryCategorySync cat : list){
-            result = result.concat(cat.getTistoryCatId().toString() + " ");
-        }
-        return result;
+    private boolean isPostUpdate(){
+        if (i_blog >= getSizePostBlog() || i_db >= getSizePostDB())
+            return false;
+        if (!getPostDB(i_db).getTistoryPostDate().equals(getPostBlog(i_blog).getTistoryPostDate()))
+            return true;
+        if (!getPostDB(i_db).getPostVisible().equals(getPostBlog(i_blog).getPostVisible()))
+            return true;
+        if (!getPostDB(i_db).getCatId().equals(getPostBlog(i_blog).getCatId()))
+            return true;
+        return false;
     }
 }

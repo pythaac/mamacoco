@@ -1,7 +1,9 @@
 package mamcoco.parser;
 
 import mamcoco.apis.TistoryAPIMapper;
+import mamcoco.database.dao.TistoryCategoryAll;
 import mamcoco.database.dao.TistoryCategorySync;
+import mamcoco.database.dao.TistoryPostAll;
 import mamcoco.database.dao.TistoryPostSync;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -16,7 +18,7 @@ public class TistoryXMLParser
         this.mapper = mapper;
     }
 
-    public ArrayList<TistoryCategorySync> getCategoryList(String xml){
+    public ArrayList<TistoryCategorySync> getCategoryListSync(String xml){
         // 1. get API data as XML
         XMLParser parser = new XMLParser(xml);
 
@@ -25,6 +27,27 @@ public class TistoryXMLParser
 
         // 3. convert each category using XMLparser into TistoryCategorySync
         return this.categoryNodeListToArrayList(list);
+    }
+
+    public ArrayList<TistoryPostSync> getPostListSync(String xml){
+        // 1. get API data as XML
+        XMLParser parser = new XMLParser(xml);
+
+        // 2. get post list using XMLparser
+        NodeList list = parser.into("item").into("posts").getList();
+
+        // 3. convert each post using XMLparser into TistoryPostSync
+        return this.postNodeListToArrayList(list);
+    }
+
+    public Long getNumPages(String xml)
+    {
+        XMLParser parser = new XMLParser(xml);
+        parser.into("item");
+        Double count = Double.parseDouble(parser.get("count"));
+        Double totalCount = Double.parseDouble(parser.get("totalCount"));
+
+        return (long) Math.ceil(totalCount / count);
     }
 
     private ArrayList<TistoryCategorySync> categoryNodeListToArrayList(NodeList list)
@@ -51,17 +74,6 @@ public class TistoryXMLParser
         return result;
     }
 
-    public ArrayList<TistoryPostSync> getPostList(String xml){
-        // 1. get API data as XML
-        XMLParser parser = new XMLParser(xml);
-
-        // 2. get post list using XMLparser
-        NodeList list = parser.into("item").into("posts").getList();
-
-        // 3. convert each post using XMLparser into TistoryPostSync
-        return this.postNodeListToArrayList(list);
-    }
-
     private ArrayList<TistoryPostSync> postNodeListToArrayList(NodeList list){
         ArrayList<TistoryPostSync> result = new ArrayList<>();
 
@@ -71,26 +83,18 @@ public class TistoryXMLParser
 
             // 1. get tags
             Long tistory_post_id = Long.parseLong(XMLParser.getValue(post, "id"));
-            Long cat_id = Long.parseLong(XMLParser.getValue(post, "categoryId"));
+            Long tmp_cat_id = Long.parseLong(XMLParser.getValue(post, "categoryId"));
             String tmp_post_visible = XMLParser.getValue(post, "visibility");
             String tistory_post_date = XMLParser.getValue(post, "date");
 
             // 2. get mapped data
             Integer post_visible = this.mapper.mapPostVisible(tmp_post_visible);
+            this.mapper.updateCatMapTable();
+            Long cat_id = this.mapper.mapTistoryCatId(tmp_cat_id);
 
             result.add(new TistoryPostSync(tistory_post_id, cat_id, post_visible, tistory_post_date));
         }
 
         return result;
-    }
-
-    public Long getNumPages(String xml)
-    {
-        XMLParser parser = new XMLParser(xml);
-        parser.into("item");
-        Double count = Double.parseDouble(parser.get("count"));
-        Double totalCount = Double.parseDouble(parser.get("totalCount"));
-
-        return (long) Math.ceil(totalCount / count);
     }
 }

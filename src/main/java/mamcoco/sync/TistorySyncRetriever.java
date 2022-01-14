@@ -45,7 +45,7 @@ public class TistorySyncRetriever
 
     private void getCatBlog(){
         String xml = this.api.categoryList();
-        this.data.catBlog = this.xmlParser.getCategoryList(xml);
+        this.data.catBlog = this.xmlParser.getCategoryListSync(xml);
     }
 
     private void getPostBlog(){
@@ -61,7 +61,7 @@ public class TistorySyncRetriever
         {
             // 4. add page list
             String xml = this.api.postList(page);
-            this.data.postBlog.addAll(this.xmlParser.getPostList(xml));
+            this.data.postBlog.addAll(this.xmlParser.getPostListSync(xml));
         }
     }
 
@@ -82,36 +82,5 @@ public class TistorySyncRetriever
 
     public TistorySyncData getData(){
         return this.data;
-    }
-
-    // for test
-    public String printIds(){
-        String catDBId = "catDBId: {\n\t";
-        String catBlogId = "catBlogId: {\n\t";
-        String postDBId = "postDBId: {\n\t";
-        String postBlogId = "postBlogId: {\n\t";
-
-        catDBId = catDBId + this.printCatIds(this.data.catDB) + "\n}\n";
-        catBlogId = catBlogId + this.printCatIds(this.data.catBlog) + "\n}\n";
-        postDBId = postDBId + this.printPostIds(this.data.postDB) + "\n}\n";
-        postBlogId = postBlogId + this.printPostIds(this.data.postBlog) + "\n}\n";
-
-        return catDBId + catBlogId + postDBId + postBlogId;
-    }
-
-    private String printPostIds(ArrayList<TistoryPostSync> list){
-        String result = "";
-        for(TistoryPostSync post : list){
-            result = result.concat(post.getTistoryPostId().toString() + " ");
-        }
-        return result;
-    }
-
-    private String printCatIds(ArrayList<TistoryCategorySync> list){
-        String result = "";
-        for(TistoryCategorySync cat : list){
-            result = result.concat(cat.getTistoryCatId().toString() + " ");
-        }
-        return result;
     }
 }
