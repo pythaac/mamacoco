@@ -43,7 +43,7 @@ public class TistorySyncExecuter
             TistoryCategorySync cat = catToCreate.get(i);
             catList.add(new Category(cat.getCatName(), cat.getCatParent(), cat.getCatVisible()));
         }
-        ArrayList<Category> catResult = catRepo.saveAll(catList);
+        //ArrayList<Category> catResult = catRepo.saveAll(catList);
 
 //        // 2. insert TistoryCategory with catId
 //        for(int i=0; i<catResult.size(); i++){
