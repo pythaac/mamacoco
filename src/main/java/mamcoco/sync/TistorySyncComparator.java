@@ -41,7 +41,7 @@ public class TistorySyncComparator
                 i_db++;
             }
             else if (this.isCatUpdate()){
-                result.catUpdateList.add(getCatDB(i_db));
+                result.catUpdateList.add(getCatBlog(i_blog));
                 i_db++;
                 i_blog++;
             }
@@ -69,7 +69,7 @@ public class TistorySyncComparator
                 i_db++;
             }
             else if (this.isPostUpdate()){
-                result.postUpdateList.add(getPostDB(i_db));
+                result.postUpdateList.add(getPostBlog(i_blog));
                 i_db++;
                 i_blog++;
             }

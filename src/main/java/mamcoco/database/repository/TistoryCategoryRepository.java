@@ -12,9 +12,23 @@ import java.util.ArrayList;
 
 @Repository
 public interface TistoryCategoryRepository extends CrudRepository<TistoryCategory, Long> {
+    TistoryCategory save(TistoryCategory tCat);
+    TistoryCategory deleteByTistoryCatId(Long tCatId);
+
+    // all categories for user
     ArrayList<TistoryCategory> findTistoryCategoriesByTistoryBlogName(String tistory_blog_name);
+
+    // sync data for comparing
+    @Query("select NEW mamcoco.database.dao.TistoryCategorySync" +
+            "(t.tistoryCatId, " +
+            "c.catName, " +
+            "c.catParent, " +
+            "c.catVisible)" +
+            "from TistoryCategory t join Category c on c.catId = t.catId where t.tistoryBlogName = :blog_name")
+    ArrayList<TistoryCategorySync> findTistoryCategoriesWithCategoryForSync(@Param("blog_name") String blog_name);
+
+    // not used for now
     TistoryCategory findTistoryCategoryByTistoryCatId(Long tistory_cat_id);
-    ArrayList<TistoryCategory> saveAll(ArrayList<TistoryCategory> list);
 
     @Query("select NEW TistoryCategoryAll" +
             "(t.tistoryCatId, " +
@@ -25,13 +39,4 @@ public interface TistoryCategoryRepository extends CrudRepository<TistoryCategor
             "c.catId)" +
             "from TistoryCategory t join Category c on c.catId = t.catId where t.tistoryBlogName = :blog_name")
     ArrayList<TistoryCategoryAll> findTistoryCategoriesWithCategory(@Param("blog_name") String blog_name);
-
-    // for compare
-    @Query("select NEW mamcoco.database.dao.TistoryCategorySync" +
-            "(t.tistoryCatId, " +
-            "c.catName, " +
-            "c.catParent, " +
-            "c.catVisible)" +
-            "from TistoryCategory t join Category c on c.catId = t.catId where t.tistoryBlogName = :blog_name")
-    ArrayList<TistoryCategorySync> findTistoryCategoriesWithCategoryForSync(@Param("blog_name") String blog_name);
 }

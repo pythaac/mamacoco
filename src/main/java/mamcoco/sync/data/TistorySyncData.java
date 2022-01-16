@@ -6,7 +6,6 @@ import mamcoco.database.dao.TistoryPostSync;
 
 import java.util.ArrayList;
 
-@Data
 public class TistorySyncData
 {
     public ArrayList<TistoryCategorySync> catDB;

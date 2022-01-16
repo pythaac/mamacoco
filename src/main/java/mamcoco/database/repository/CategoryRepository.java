@@ -9,5 +9,6 @@ import java.util.ArrayList;
 @Repository
 public interface CategoryRepository extends CrudRepository<Category, Long>
 {
-    ArrayList<Category> saveAll(ArrayList<Category> list);
+    Category save(Category cat);
+    Category deleteByCatId(Long catId);
 }
