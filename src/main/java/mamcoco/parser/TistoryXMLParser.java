@@ -1,9 +1,7 @@
 package mamcoco.parser;
 
 import mamcoco.apis.TistoryAPIMapper;
-import mamcoco.database.dao.TistoryCategoryAll;
 import mamcoco.database.dao.TistoryCategorySync;
-import mamcoco.database.dao.TistoryPostAll;
 import mamcoco.database.dao.TistoryPostSync;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -111,7 +109,7 @@ public class TistoryXMLParser
 
             // 2. get mapped data
             Integer post_visible = this.mapper.mapPostVisible(tmp_post_visible);
-            this.mapper.updateCatMapTable();
+            this.mapper.updateAllCatMapTable();
             Long cat_id = this.mapper.mapTistoryCatId(tmp_cat_id);
 
             result.add(new TistoryPostSync(tistory_post_id, cat_id, post_visible, tistory_post_date));

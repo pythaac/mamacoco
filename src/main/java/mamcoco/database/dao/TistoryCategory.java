@@ -30,4 +30,9 @@ public class TistoryCategory {
         this.tistoryBlogName = tistoryBlogName;
         this.catId = catId;
     }
+
+    public TistoryCategory()
+    {
+
+    }
 }

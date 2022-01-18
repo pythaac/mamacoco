@@ -1,6 +1,7 @@
 package mamcoco.apis;
 
 import mamcoco.database.dao.TistoryCategory;
+import mamcoco.database.dao.TistoryCategorySync;
 import mamcoco.database.dao.TistoryInfo;
 import mamcoco.database.repository.TistoryCategoryRepository;
 
@@ -87,7 +88,7 @@ public class TistoryAPIMapper
         return this.catMapTable.getOrDefault(tistory_cat_id, null);
     }
 
-    public void updateCatMapTable()
+    public void updateAllCatMapTable()
     {
         ArrayList<TistoryCategory> catList = catRepo.findTistoryCategoriesByTistoryBlogName(this.info.getTistoryBlogName());
 
@@ -98,5 +99,15 @@ public class TistoryAPIMapper
         }
 
         this.catMapTable = result;
+    }
+
+    public void addCatMapTable(TistoryCategory tCat)
+    {
+        this.catMapTable.put(tCat.getTistoryCatId(), tCat.getCatId());
+    }
+
+    public void deleteCatMapTable(Long cat_id)
+    {
+        //this.catMapTable.remove()
     }
 }

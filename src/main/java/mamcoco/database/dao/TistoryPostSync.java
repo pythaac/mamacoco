@@ -15,7 +15,6 @@ public class TistoryPostSync {
     protected Long tistoryPostId;
 
     @Column(name="cat_id")
-    @NotNull
     protected Long catId;
 
     @Column(name="post_visible")

@@ -11,7 +11,6 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="cat_id")
-    @NotNull
     private Long catId;
 
     @Column(name="cat_name")
@@ -25,9 +24,21 @@ public class Category {
     @NotNull
     private Integer catVisible;
 
+    public Category(Long catId, String catName, Long catParent, Integer catVisible){
+        this.catId = catId;
+        this.catName = catName;
+        this.catParent = catParent;
+        this.catVisible = catVisible;
+    }
+
     public Category(String catName, Long catParent, Integer catVisible){
         this.catName = catName;
         this.catParent = catParent;
         this.catVisible = catVisible;
+    }
+
+    public Category()
+    {
+
     }
 }
