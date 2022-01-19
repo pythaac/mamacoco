@@ -7,5 +7,6 @@ import java.util.ArrayList;
 
 public interface PostRepository extends CrudRepository<Post, Long>
 {
-    ArrayList<Post> saveAll(ArrayList<Post> list);
+    Post save(Post post);
+    Post deleteByPostId(Long postId);
 }

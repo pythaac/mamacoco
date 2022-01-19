@@ -19,29 +19,19 @@ public class XMLParser
     protected Element current;
     protected Element save;
 
+    static public String getElementValueByTag(Element elt, String tag){
+        return elt.getElementsByTagName(tag).item(0).getTextContent();
+    }
+
+    static public String getElementValue(Element elt){
+        return elt.getTextContent();
+    }
+
     public XMLParser(String xml)
     {
         this.xml = xml;
         this.save = null;
         this.build();
-    }
-
-    static public String getValue(Element elt, String tag){
-        return elt.getElementsByTagName(tag).item(0).getTextContent();
-    }
-
-    private void build(){
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-
-            InputStream is = new ByteArrayInputStream(xml.getBytes());
-            this.doc = builder.parse(is);
-            this.doc.getDocumentElement().normalize();
-        } catch (ParserConfigurationException | IOException | SAXException e) {
-            e.printStackTrace();
-        }
-        this.current = doc.getDocumentElement();
     }
 
     public XMLParser into(String tag){
@@ -55,6 +45,22 @@ public class XMLParser
 
     public NodeList getList(){
         return this.current.getChildNodes();
+    }
+
+    public NodeList getListByTag(String tag) { return this.current.getElementsByTagName(tag); }
+
+    private void build(){
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            InputStream is = new ByteArrayInputStream(xml.getBytes());
+            this.doc = builder.parse(is);
+            this.doc.getDocumentElement().normalize();
+        } catch (ParserConfigurationException | IOException | SAXException e) {
+            e.printStackTrace();
+        }
+        this.current = doc.getDocumentElement();
     }
 
     public void init(){

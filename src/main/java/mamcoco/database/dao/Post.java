@@ -11,7 +11,6 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="post_id")
-    @NotNull
     private Long postId;
 
     @Column(name="cat_id")
@@ -33,4 +32,34 @@ public class Post {
     @Column(name="post_visible")
     @NotNull
     private Integer postVisible;
+
+    public Post(Long postId,
+                Long catId,
+                String postTitle,
+                String postContent,
+                String postTags,
+                Integer postVisible)
+    {
+        this.postId = postId;
+        this.catId = catId;
+        this.postTitle = postTitle;
+        this.postContent = postContent;
+        this.postTags = postTags;
+        this.postVisible = postVisible;
+    }
+
+    public Post(Long catId,
+                String postTitle,
+                String postContent,
+                String postTags,
+                Integer postVisible)
+    {
+        this.catId = catId;
+        this.postTitle = postTitle;
+        this.postContent = postContent;
+        this.postTags = postTags;
+        this.postVisible = postVisible;
+    }
+
+    public Post() {};
 }

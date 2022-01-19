@@ -13,10 +13,19 @@ import java.util.ArrayList;
 
 @Repository
 public interface TistoryPostRepository extends CrudRepository<TistoryPost, Long> {
-    ArrayList<TistoryPost> findTistoryPostsByTistoryBlogName(String tistory_blog_name);
-    TistoryPost findTistoryPostByTistoryPostId(Long tistory_post_id);
-    ArrayList<TistoryPost> saveAll(ArrayList<TistoryPost> list);
+    TistoryPost save(TistoryPost tPost);
+    TistoryPost deleteByTistoryPostId(Long tistoryPostId);
 
+    // sync data for comparing
+    @Query("select NEW mamcoco.database.dao.TistoryPostSync" +
+            "(t.tistoryPostId," +
+            "p.catId," +
+            "p.postVisible," +
+            "t.tistoryPostDate)" +
+            "from TistoryPost t join Post p on p.postId = t.postId where t.tistoryBlogName = :blog_name")
+    ArrayList<TistoryPostSync> findTistoryPostsWithPostForSync(@Param("blog_name") String blog_name);
+
+    // not used for now
     @Query("select NEW TistoryPostAll" +
             "(t.tistoryPostId," +
             "p.postId," +
@@ -29,13 +38,4 @@ public interface TistoryPostRepository extends CrudRepository<TistoryPost, Long>
             "t.tistoryPostDate)" +
             "from TistoryPost t join Post p on p.postId = t.postId where t.tistoryBlogName = :blog_name")
     ArrayList<TistoryPostAll> findTistoryPostsWithPost(@Param("blog_name") String blog_name);
-
-    // for compare
-    @Query("select NEW mamcoco.database.dao.TistoryPostSync" +
-            "(t.tistoryPostId," +
-            "p.catId," +
-            "p.postVisible," +
-            "t.tistoryPostDate)" +
-            "from TistoryPost t join Post p on p.postId = t.postId where t.tistoryBlogName = :blog_name")
-    ArrayList<TistoryPostSync> findTistoryPostsWithPostForSync(@Param("blog_name") String blog_name);
 }

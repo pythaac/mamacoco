@@ -106,8 +106,5 @@ public class TistoryAPIMapper
         this.catMapTable.put(tCat.getTistoryCatId(), tCat.getCatId());
     }
 
-    public void deleteCatMapTable(Long cat_id)
-    {
-        //this.catMapTable.remove()
-    }
+    public void deleteCatMapTable(Long tCatId) { this.catMapTable.remove(tCatId); }
 }
