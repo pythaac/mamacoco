@@ -2,45 +2,41 @@ package mamcoco.sync;
 
 import mamcoco.apis.TistoryAPI;
 import mamcoco.apis.TistoryAPIMapper;
-import mamcoco.database.dao.TistoryCategorySync;
 import mamcoco.database.dao.TistoryInfo;
-import mamcoco.database.dao.TistoryPostSync;
 import mamcoco.database.repository.TistoryCategoryRepository;
 import mamcoco.database.repository.TistoryPostRepository;
 import mamcoco.parser.TistoryXMLParser;
 import mamcoco.sync.data.TistorySyncData;
-
-import java.util.ArrayList;
 
 public class TistorySyncRetriever
 {
     private TistorySyncData data;
 
     private final TistoryInfo info;
-    private final TistoryCategoryRepository catRepo;
-    private final TistoryPostRepository postRepo;
+    private final TistoryCategoryRepository tCatRepo;
+    private final TistoryPostRepository tPostRepo;
 
     private final TistoryAPI api;
     private final TistoryAPIMapper mapper;
     private final TistoryXMLParser xmlParser;
 
-    public TistorySyncRetriever(TistoryInfo info, TistoryCategoryRepository catRepo, TistoryPostRepository postRepo){
+    public TistorySyncRetriever(TistoryInfo info, TistoryCategoryRepository tCatRepo, TistoryPostRepository tPostRepo){
         this.info = info;
-        this.catRepo = catRepo;
-        this.postRepo = postRepo;
+        this.tCatRepo = tCatRepo;
+        this.tPostRepo = tPostRepo;
         this.api = new TistoryAPI(info);
-        this.mapper = new TistoryAPIMapper(info, catRepo);
+        this.mapper = new TistoryAPIMapper(info, tCatRepo, tPostRepo);
         this.xmlParser = new TistoryXMLParser(this.mapper);
 
         this.data = new TistorySyncData();
     }
 
     private void getCatDB(){
-        this.data.catDB = catRepo.findTistoryCategoriesWithCategoryForSync(this.info.getTistoryBlogName());
+        this.data.catDB = tCatRepo.findTistoryCategoriesWithCategoryForSync(this.info.getTistoryBlogName());
     }
 
     private void getPostDB(){
-        this.data.postDB = postRepo.findTistoryPostsWithPostForSync(this.info.getTistoryBlogName());
+        this.data.postDB = tPostRepo.findTistoryPostsWithPostForSync(this.info.getTistoryBlogName());
     }
 
     private void getCatBlog(){

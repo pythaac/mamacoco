@@ -9,8 +9,8 @@ import mamcoco.database.repository.TistoryCategoryRepository;
 import mamcoco.database.repository.TistoryPostRepository;
 import mamcoco.parser.TistoryXMLParser;
 import mamcoco.sync.data.TistorySyncUpdateData;
-import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 
@@ -47,6 +47,15 @@ public class TistorySyncExecuter
         this.mapper = mapper;
     }
 
+    public void execute(){
+        this.createCat();
+        this.createPost();
+        this.updatePost();
+        this.deletePost();
+        this.updateCat();
+        this.deleteCat();
+    }
+
     @Transactional
     void createCat()
     {
@@ -61,6 +70,7 @@ public class TistorySyncExecuter
 
             // 2. save TistoryCategory using catId
             TistoryCategory tCat = new TistoryCategory(catSync.getTistoryCatId(), info.getTistoryBlogName(), resCat.getCatId());
+            Long test = resCat.getCatId();
             TistoryCategory resTistoryCat = tCatRepo.save(tCat);
 
             // 3. add TistoryCat-Category map
@@ -96,7 +106,7 @@ public class TistorySyncExecuter
             TistoryCategorySync catSync = catToUpdate.get(i);
 
             // 1. get catId using TistoryAPIMapper
-            Long cat_id = this.mapper.mapTistoryCatId(catSync.getTistoryCatId());
+            Long cat_id = this.mapper.getMapByTistoryCatId(catSync.getTistoryCatId());
 
             // 2. update TistoryCategory with catUpdateList
             TistoryCategory tCat = new TistoryCategory(catSync.getTistoryCatId(), info.getTistoryBlogName(), cat_id);
@@ -136,6 +146,9 @@ public class TistorySyncExecuter
                     resAPI.getTistoryPostDate(),
                     resPost.getPostId());
             TistoryPost resTistoryPost = tPostRepo.save(tPost);
+
+            // 4. add TistoryPost-Post table
+            this.mapper.addPostMapTable(tPost);
         }
     }
 
@@ -152,37 +165,43 @@ public class TistorySyncExecuter
 
             // 2. delete Post using postId
             Post resPost = postRepo.deleteByPostId(resTistoryPost.getPostId());
+
+            // 3. delete TistoryPost-Post table
+            this.mapper.deletePostMapTable(resTistoryPost.getPostId());
         }
     }
 
-//    @Transactional
-//    void updatePost()
-//    {
-//        ArrayList<TistoryPostSync> postToUpdate = this.data.postUpdateList;
-//
-//        for(int i=0; i<this.data.getSizePostUpdateList(); i++){
-//            TistoryPostSync postSync = postToUpdate.get(i);
-//
-//            // 1. get data using Tistory API and TistoryXmlParser
-//            String xml = this.api.post(postSync.getTistoryPostId());
-//            TistoryPostAll resAPI = this.parser.getPost(xml);
-//
-//            // 2. update TistoryPost
-//            TistoryPost tPost = new TistoryPost(
-//                    resAPI.getTistoryPostId(),
-//                    this.info.getTistoryBlogName(),
-//                    resAPI.getTistoryPostDate(),
-//                    resPost.getPostId());
-//            TistoryPost resTistoryPost = tPostRepo.save(tPost);
-//
-//            // 2. update Post
-//            Post post = new Post(
-//                    resAPI.getCatId(),
-//                    resAPI.getPostTitle(),
-//                    resAPI.getPostContent(),
-//                    resAPI.getPostTags(),
-//                    resAPI.getPostVisible());
-//            Post resPost = postRepo.save(post);
-//        }
-//    }
+    @Transactional
+    void updatePost()
+    {
+        ArrayList<TistoryPostSync> postToUpdate = this.data.postUpdateList;
+
+        for(int i=0; i<this.data.getSizePostUpdateList(); i++){
+            TistoryPostSync postSync = postToUpdate.get(i);
+
+            // 1. get data using Tistory API and TistoryXmlParser
+            String xml = this.api.post(postSync.getTistoryPostId());
+            TistoryPostAll resAPI = this.parser.getPost(xml);
+
+            // 2. get postId using TistoryAPIMapper
+            Long postId = this.mapper.getMapByTistoryPostId(postSync.getTistoryPostId());
+
+            // 2. update TistoryPost
+            TistoryPost tPost = new TistoryPost(
+                    resAPI.getTistoryPostId(),
+                    this.info.getTistoryBlogName(),
+                    resAPI.getTistoryPostDate(),
+                    postId);
+            TistoryPost resTistoryPost = tPostRepo.save(tPost);
+
+            // 2. update Post
+            Post post = new Post(
+                    resAPI.getCatId(),
+                    resAPI.getPostTitle(),
+                    resAPI.getPostContent(),
+                    resAPI.getPostTags(),
+                    resAPI.getPostVisible());
+            Post resPost = postRepo.save(post);
+        }
+    }
 }

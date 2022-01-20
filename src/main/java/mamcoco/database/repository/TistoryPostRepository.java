@@ -16,6 +16,9 @@ public interface TistoryPostRepository extends CrudRepository<TistoryPost, Long>
     TistoryPost save(TistoryPost tPost);
     TistoryPost deleteByTistoryPostId(Long tistoryPostId);
 
+    // all posts for user
+    ArrayList<TistoryPost> findTistoryPostsByTistoryBlogName(String tistoryBlogName);
+
     // sync data for comparing
     @Query("select NEW mamcoco.database.dao.TistoryPostSync" +
             "(t.tistoryPostId," +

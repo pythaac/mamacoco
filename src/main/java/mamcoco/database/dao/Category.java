@@ -1,6 +1,7 @@
 package mamcoco.database.dao;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="cat_id")
     private Long catId;
 
@@ -32,6 +33,7 @@ public class Category {
     }
 
     public Category(String catName, Long catParent, Integer catVisible){
+        this.catId = null;
         this.catName = catName;
         this.catParent = catParent;
         this.catVisible = catVisible;

@@ -65,7 +65,7 @@ public class TistoryXMLParser
         String tags = this.postTagsToString(parser.getListByTag("tags"));
 
         // 2. get mapped data
-        Long catId = this.mapper.mapTistoryCatId(tmpCatId);
+        Long catId = this.mapper.getMapByTistoryCatId(tmpCatId);
         Integer visible = this.mapper.mapPostVisible(tmpVisible);
 
         // 3. convert into TistoryPostAll
@@ -120,8 +120,7 @@ public class TistoryXMLParser
 
             // 2. get mapped data
             Integer post_visible = this.mapper.mapPostVisible(tmp_post_visible);
-            this.mapper.updateAllCatMapTable();
-            Long cat_id = this.mapper.mapTistoryCatId(tmp_cat_id);
+            Long cat_id = this.mapper.getMapByTistoryCatId(tmp_cat_id);
 
             result.add(new TistoryPostSync(tistory_post_id, cat_id, post_visible, tistory_post_date));
         }

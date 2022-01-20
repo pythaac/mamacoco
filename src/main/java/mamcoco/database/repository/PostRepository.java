@@ -2,6 +2,7 @@ package mamcoco.database.repository;
 
 import mamcoco.database.dao.Post;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 

@@ -1,22 +1,28 @@
 package mamcoco.apis;
 
 import mamcoco.database.dao.TistoryCategory;
-import mamcoco.database.dao.TistoryCategorySync;
 import mamcoco.database.dao.TistoryInfo;
+import mamcoco.database.dao.TistoryPost;
 import mamcoco.database.repository.TistoryCategoryRepository;
+import mamcoco.database.repository.TistoryPostRepository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Hashtable;
 
 public class TistoryAPIMapper
 {
-    private final TistoryCategoryRepository catRepo;
+    private final TistoryCategoryRepository tCatRepo;
+    private final TistoryPostRepository tPostRepo;
     private final TistoryInfo info;
-    private HashMap<Long, Long> catMapTable;
+    private Hashtable<Long, Long> catMapTable;
+    private Hashtable<Long, Long> postMapTable;
 
-    public TistoryAPIMapper(TistoryInfo info, TistoryCategoryRepository catRepo){
+    public TistoryAPIMapper(TistoryInfo info, TistoryCategoryRepository tCatRepo, TistoryPostRepository tPostRepo){
         this.info = info;
-        this.catRepo = catRepo;
+        this.tCatRepo = tCatRepo;
+        this.tPostRepo = tPostRepo;
+        this.updateAllCatMapTable();
+        this.updateAllPostMapTable();
     };
 
     /*
@@ -84,15 +90,19 @@ public class TistoryAPIMapper
         <Description>
             For checking updated posts, $tistoryCatId is needed
     */
-    public Long mapTistoryCatId(Long tistory_cat_id){
+    public Long getMapByTistoryCatId(Long tistory_cat_id){
         return this.catMapTable.getOrDefault(tistory_cat_id, null);
     }
 
+    /*  =====================================================
+        ==================== catMapTable ====================
+        ===================================================== */
+
     public void updateAllCatMapTable()
     {
-        ArrayList<TistoryCategory> catList = catRepo.findTistoryCategoriesByTistoryBlogName(this.info.getTistoryBlogName());
+        ArrayList<TistoryCategory> catList = tCatRepo.findTistoryCategoriesByTistoryBlogName(this.info.getTistoryBlogName());
 
-        HashMap<Long, Long> result = new HashMap<>();
+        Hashtable<Long, Long> result = new Hashtable<>();
         for(TistoryCategory cat : catList)
         {
             result.put(cat.getTistoryCatId(), cat.getCatId());
@@ -107,4 +117,32 @@ public class TistoryAPIMapper
     }
 
     public void deleteCatMapTable(Long tCatId) { this.catMapTable.remove(tCatId); }
+
+    /*  =====================================================
+        ==================== postMapTable ===================
+        ===================================================== */
+
+    public Long getMapByTistoryPostId(Long tistoryPostId){
+        return this.postMapTable.getOrDefault(tistoryPostId, null);
+    }
+
+    public void updateAllPostMapTable()
+    {
+        ArrayList<TistoryPost> postList = tPostRepo.findTistoryPostsByTistoryBlogName(this.info.getTistoryBlogName());
+
+        Hashtable<Long, Long> result = new Hashtable<>();
+        for(TistoryPost post : postList)
+        {
+            result.put(post.getTistoryPostId(), post.getPostId());
+        }
+
+        this.postMapTable = result;
+    }
+
+    public void addPostMapTable(TistoryPost tPost)
+    {
+        this.postMapTable.put(tPost.getTistoryPostId(), tPost.getPostId());
+    }
+
+    public void deletePostMapTable(Long tPostId) { this.postMapTable.remove(tPostId); }
 }
