@@ -49,9 +49,9 @@ public class TistorySyncExecuter
 
     public void execute(){
         this.createCat();
-        this.createPost();
-        this.updatePost();
-        this.deletePost();
+//        this.createPost();
+//        this.updatePost();
+//        this.deletePost();
         this.updateCat();
         this.deleteCat();
     }
@@ -69,8 +69,7 @@ public class TistorySyncExecuter
             Category resCat = catRepo.save(cat);
 
             // 2. save TistoryCategory using catId
-            TistoryCategory tCat = new TistoryCategory(catSync.getTistoryCatId(), info.getTistoryBlogName(), resCat.getCatId());
-            Long test = resCat.getCatId();
+            TistoryCategory tCat = new TistoryCategory(catSync.getTistoryCatId(), info.getTistoryBlogName(), resCat.getCatId(), resCat);
             TistoryCategory resTistoryCat = tCatRepo.save(tCat);
 
             // 3. add TistoryCat-Category map
@@ -108,13 +107,15 @@ public class TistorySyncExecuter
             // 1. get catId using TistoryAPIMapper
             Long cat_id = this.mapper.getMapByTistoryCatId(catSync.getTistoryCatId());
 
-            // 2. update TistoryCategory with catUpdateList
-            TistoryCategory tCat = new TistoryCategory(catSync.getTistoryCatId(), info.getTistoryBlogName(), cat_id);
+            // 2. update Category with catUpdateList
+            Category cat = new Category(cat_id, catSync.getCatName(), catSync.getCatParent(), catSync.getCatVisible());
+            Category resCat = catRepo.save(cat);
+
+            // 3. update TistoryCategory with catUpdateList
+            TistoryCategory tCat = new TistoryCategory(catSync.getTistoryCatId(), info.getTistoryBlogName(), cat_id, resCat);
             TistoryCategory resTistoryCat = tCatRepo.save(tCat);
 
-            // 3. update Category with catUpdateList
-            Category cat = new Category(resTistoryCat.getCatId(), catSync.getCatName(), catSync.getCatParent(), catSync.getCatVisible());
-            Category resCat = catRepo.save(cat);
+
         }
     }
 

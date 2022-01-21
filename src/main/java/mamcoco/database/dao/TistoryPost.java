@@ -25,7 +25,7 @@ public class TistoryPost {
     @NotNull
     private Long postId;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="post_id")
     private Post post;
 

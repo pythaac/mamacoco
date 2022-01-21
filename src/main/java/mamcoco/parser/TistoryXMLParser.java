@@ -97,7 +97,14 @@ public class TistoryXMLParser
 
             // 2. get mapped data
             Integer visible = this.mapper.mapCategoryVisible(tmpVisible);
-            Long parent = tmpParent.isEmpty()? null : Long.parseLong(tmpParent);;
+
+            Long parent;
+            // 2-1. has no parent -> nothing to do
+            if (tmpParent.isEmpty()) { parent = null; }
+            // 2-2. has parent, but failed to convert into catId -> need to create or update
+            else if (this.mapper.getMapByTistoryCatId(Long.parseLong(tmpParent)) == null) { parent = (long)-1; }
+            // 2-3. has parent, and converted into matched catId -> need to compare (might be updated)
+            else { parent = this.mapper.getMapByTistoryCatId(Long.parseLong(tmpParent)); }
 
             result.add(new TistoryCategorySync(id, name, parent, visible));
         }

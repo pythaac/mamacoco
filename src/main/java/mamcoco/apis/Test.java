@@ -35,8 +35,7 @@ public class Test {
             TistoryCategoryRepository tCatRepo,
             TistoryPostRepository tPostRepo,
             CategoryRepository catRepo,
-            PostRepository postRepo,
-            EntityManager manager)
+            PostRepository postRepo)
     {
         this.tCatRepo = tCatRepo;
         this.tPostRepo = tPostRepo;

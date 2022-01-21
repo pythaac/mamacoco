@@ -17,18 +17,18 @@ public class TistoryCategory {
     @NotNull
     private String tistoryBlogName;
 
-    @Column(name="cat_id", insertable = false, updatable = false)
+    @Column(name="cat_id")
     @NotNull
     private Long catId;
 
-    @ManyToOne
-    @JoinColumn(name="cat_id")
+    @OneToOne
+    @JoinColumn(name="cat_id", insertable = false, updatable = false)
     private Category category;
 
-    public TistoryCategory(Long tistoryCatId, String tistoryBlogName, Long catId){
+    public TistoryCategory(Long tistoryCatId, String tistoryBlogName, Long catId, Category category){
         this.tistoryCatId = tistoryCatId;
         this.tistoryBlogName = tistoryBlogName;
-        this.catId = catId;
+        this.category = category;
     }
 
     public TistoryCategory()
