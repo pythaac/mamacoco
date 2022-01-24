@@ -1,8 +1,7 @@
 package mamcoco.sync.data;
 
-import lombok.Data;
-import mamcoco.database.dao.TistoryCategorySync;
-import mamcoco.database.dao.TistoryPostSync;
+import mamcoco.database.data.TistoryCategorySync;
+import mamcoco.database.data.TistoryPostSync;
 
 import java.util.ArrayList;
 

@@ -1,11 +1,9 @@
 package mamcoco.sync;
 
-import mamcoco.database.dao.TistoryCategorySync;
-import mamcoco.database.dao.TistoryPostSync;
+import mamcoco.database.data.TistoryCategorySync;
+import mamcoco.database.data.TistoryPostSync;
 import mamcoco.sync.data.TistorySyncData;
 import mamcoco.sync.data.TistorySyncUpdateData;
-
-import java.util.ArrayList;
 
 public class TistorySyncComparator
 {

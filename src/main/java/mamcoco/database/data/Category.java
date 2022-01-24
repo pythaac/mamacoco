@@ -1,7 +1,6 @@
-package mamcoco.database.dao;
+package mamcoco.database.data;
 
 import lombok.Data;
-import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

@@ -1,9 +1,8 @@
 package mamcoco.database.repository;
 
-import mamcoco.database.dao.TistoryCategory;
-import mamcoco.database.dao.TistoryPost;
-import mamcoco.database.dao.TistoryPostAll;
-import mamcoco.database.dao.TistoryPostSync;
+import mamcoco.database.data.TistoryPost;
+import mamcoco.database.data.TistoryPostAll;
+import mamcoco.database.data.TistoryPostSync;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -20,7 +19,7 @@ public interface TistoryPostRepository extends CrudRepository<TistoryPost, Long>
     ArrayList<TistoryPost> findTistoryPostsByTistoryBlogName(String tistoryBlogName);
 
     // sync data for comparing
-    @Query("select NEW mamcoco.database.dao.TistoryPostSync" +
+    @Query("select NEW mamcoco.database.data.TistoryPostSync" +
             "(t.tistoryPostId," +
             "p.catId," +
             "p.postVisible," +

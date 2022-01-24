@@ -1,9 +1,9 @@
 package mamcoco.parser;
 
 import mamcoco.apis.TistoryAPIMapper;
-import mamcoco.database.dao.TistoryCategorySync;
-import mamcoco.database.dao.TistoryPostAll;
-import mamcoco.database.dao.TistoryPostSync;
+import mamcoco.database.data.TistoryCategorySync;
+import mamcoco.database.data.TistoryPostAll;
+import mamcoco.database.data.TistoryPostSync;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 

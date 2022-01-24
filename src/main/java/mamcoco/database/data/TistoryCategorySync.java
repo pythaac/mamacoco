@@ -1,9 +1,8 @@
-package mamcoco.database.dao;
+package mamcoco.database.data;
 
 import lombok.Data;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 

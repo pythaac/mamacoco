@@ -2,7 +2,7 @@ package mamcoco.sync;
 
 import mamcoco.apis.TistoryAPI;
 import mamcoco.apis.TistoryAPIMapper;
-import mamcoco.database.dao.TistoryInfo;
+import mamcoco.database.data.TistoryInfo;
 import mamcoco.database.repository.TistoryCategoryRepository;
 import mamcoco.database.repository.TistoryPostRepository;
 import mamcoco.parser.TistoryXMLParser;

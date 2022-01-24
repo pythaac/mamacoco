@@ -2,7 +2,7 @@ package mamcoco.sync;
 
 import mamcoco.apis.TistoryAPI;
 import mamcoco.apis.TistoryAPIMapper;
-import mamcoco.database.dao.*;
+import mamcoco.database.data.*;
 import mamcoco.database.repository.CategoryRepository;
 import mamcoco.database.repository.PostRepository;
 import mamcoco.database.repository.TistoryCategoryRepository;
@@ -10,7 +10,6 @@ import mamcoco.database.repository.TistoryPostRepository;
 import mamcoco.parser.TistoryXMLParser;
 import mamcoco.sync.data.TistorySyncUpdateData;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 

@@ -1,8 +1,8 @@
 package mamcoco.apis;
 
-import mamcoco.database.dao.TistoryInfo;
-import mamcoco.database.dao.TistoryPostAll;
-import mamcoco.database.dao.TistoryPostSync;
+import mamcoco.database.data.TistoryInfo;
+import mamcoco.database.data.TistoryPostAll;
+import mamcoco.database.data.TistoryPostSync;
 import mamcoco.database.repository.*;
 import mamcoco.parser.*;
 import mamcoco.sync.TistorySyncComparator;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 
 import static mamcoco.MamacocoApplication.blog_name;

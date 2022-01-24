@@ -1,8 +1,8 @@
 package mamcoco.apis;
 
-import mamcoco.database.dao.TistoryCategory;
-import mamcoco.database.dao.TistoryInfo;
-import mamcoco.database.dao.TistoryPost;
+import mamcoco.database.data.TistoryCategory;
+import mamcoco.database.data.TistoryInfo;
+import mamcoco.database.data.TistoryPost;
 import mamcoco.database.repository.TistoryCategoryRepository;
 import mamcoco.database.repository.TistoryPostRepository;
 

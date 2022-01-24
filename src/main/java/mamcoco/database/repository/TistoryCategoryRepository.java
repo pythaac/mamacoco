@@ -1,8 +1,8 @@
 package mamcoco.database.repository;
 
-import mamcoco.database.dao.TistoryCategory;
-import mamcoco.database.dao.TistoryCategoryAll;
-import mamcoco.database.dao.TistoryCategorySync;
+import mamcoco.database.data.TistoryCategory;
+import mamcoco.database.data.TistoryCategoryAll;
+import mamcoco.database.data.TistoryCategorySync;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -19,7 +19,7 @@ public interface TistoryCategoryRepository extends CrudRepository<TistoryCategor
     ArrayList<TistoryCategory> findTistoryCategoriesByTistoryBlogName(String tistory_blog_name);
 
     // sync data for comparing
-    @Query("select NEW mamcoco.database.dao.TistoryCategorySync" +
+    @Query("select NEW mamcoco.database.data.TistoryCategorySync" +
             "(t.tistoryCatId, " +
             "c.catName, " +
             "c.catParent, " +
