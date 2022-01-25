@@ -63,16 +63,18 @@ public class TistorySyncExecuter
         for(int i=0; i<this.data.getSizeCatCreateList(); i++){
             TistoryCategorySync catSync = catToCreate.get(i);
 
-            // 1. save Category first to obtain catId
+            // 1. check parent
+            this.checkParent(catSync);
+
+            // 2. save Category to obtain catId
             Category cat = new Category(catSync.getCatName(), catSync.getCatParent(), catSync.getCatVisible());
             Category resCat = catRepo.save(cat);
 
-            // 2. save TistoryCategory using catId
+            // 3. save TistoryCategory using catId
             TistoryCategory tCat = new TistoryCategory(catSync.getTistoryCatId(), info.getTistoryBlogName(), resCat.getCatId(), resCat);
-            System.out.println("catId : " + tCat.getCatId());
             TistoryCategory resTistoryCat = tCatRepo.save(tCat);
 
-            // 3. add TistoryCat-Category map
+            // 4. add TistoryCat-Category map
             this.mapper.addCatMapTable(tCat);
         }
     }
@@ -206,6 +208,21 @@ public class TistorySyncExecuter
                     resAPI.getPostTags(),
                     resAPI.getPostVisible());
             Post resPost = postRepo.save(post);
+        }
+    }
+
+    private void checkParent(TistoryCategorySync catSync){
+        // 1. no parent -> parent=null
+        if (catSync.getCatParent() == null){
+            catSync.setCatParent(null);
+        }
+        // 2. has parent but no matched catId -> add to updateList
+        else if (this.mapper.getMapByTistoryCatId(catSync.getCatParent()) == null){
+            this.data.catUpdateList.add(catSync);
+        }
+        // 3. has parent and matched catId -> parent=catId
+        else{
+            catSync.setCatParent(this.mapper.getMapByTistoryCatId(catSync.getCatParent()));
         }
     }
 }

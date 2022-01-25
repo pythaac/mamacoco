@@ -28,6 +28,7 @@ public class TistoryCategory {
     public TistoryCategory(Long tistoryCatId, String tistoryBlogName, Long catId, Category category){
         this.tistoryCatId = tistoryCatId;
         this.tistoryBlogName = tistoryBlogName;
+        this.catId = catId;
         this.category = category;
     }
 
