@@ -98,7 +98,7 @@ public class Test {
         TistorySyncRetriever retriever = new TistorySyncRetriever(this.info, this.tCatRepo, this.tPostRepo);
         retriever.retrieveAll();
 
-        TistorySyncComparator comparator = new TistorySyncComparator(retriever.getData());
+        TistorySyncComparator comparator = new TistorySyncComparator(retriever.getData(), this.mapper);
         comparator.checkCategory();
         comparator.checkPost();
         return retriever.getData().printIds() + "\n" + comparator.getResult().printIds();
@@ -110,7 +110,7 @@ public class Test {
         TistorySyncRetriever retriever = new TistorySyncRetriever(this.info, this.tCatRepo, this.tPostRepo);
         retriever.retrieveAll();
 
-        TistorySyncComparator comparator = new TistorySyncComparator(retriever.getData());
+        TistorySyncComparator comparator = new TistorySyncComparator(retriever.getData(), this.mapper);
         comparator.checkCategory();
         comparator.checkPost();
 

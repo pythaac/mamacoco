@@ -1,5 +1,6 @@
 package mamcoco.sync;
 
+import mamcoco.apis.TistoryAPIMapper;
 import mamcoco.database.data.TistoryCategorySync;
 import mamcoco.database.data.TistoryPostSync;
 import mamcoco.sync.data.TistorySyncData;
@@ -9,13 +10,15 @@ public class TistorySyncComparator
 {
     private TistorySyncUpdateData result;
     private TistorySyncData data;
+    private final TistoryAPIMapper mapper;
 
     private int i_db;
     private int i_blog;
 
-    public TistorySyncComparator(TistorySyncData data){
+    public TistorySyncComparator(TistorySyncData data, TistoryAPIMapper mapper){
         this.result = new TistorySyncUpdateData();
         this.data = data;
+        this.mapper = mapper;
     }
 
     public TistorySyncUpdateData getResult(){
@@ -115,10 +118,14 @@ public class TistorySyncComparator
             return false;
         if (!getCatDB(i_db).getCatName().equals(getCatBlog(i_blog).getCatName()))
             return true;
-        if (!getCatDB(i_db).getCatParent().equals(getCatBlog(i_blog).getCatParent()))
-            return true;
         if (!getCatDB(i_db).getCatVisible().equals(getCatBlog(i_blog).getCatVisible()))
             return true;
+        // 1) not null && 2) not equals mapped catId
+        if (getCatBlog(i_blog).getCatParent() != null){
+            Long cat_id = this.mapper.getMapByTistoryCatId(getCatBlog(i_blog).getCatParent());
+            if (!getCatDB(i_db).getCatParent().equals(cat_id))
+                return true;
+        }
         return false;
     }
 

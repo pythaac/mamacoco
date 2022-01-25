@@ -18,7 +18,6 @@ public class TistoryCategorySync {
     protected String catName;
 
     @Column(name="cat_parent")
-    @NotNull
     protected Long catParent;
 
     @Column(name="cat_visible")

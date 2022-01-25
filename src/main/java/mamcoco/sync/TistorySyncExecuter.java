@@ -69,6 +69,7 @@ public class TistorySyncExecuter
 
             // 2. save TistoryCategory using catId
             TistoryCategory tCat = new TistoryCategory(catSync.getTistoryCatId(), info.getTistoryBlogName(), resCat.getCatId(), resCat);
+            System.out.println("catId : " + tCat.getCatId());
             TistoryCategory resTistoryCat = tCatRepo.save(tCat);
 
             // 3. add TistoryCat-Category map
@@ -106,8 +107,11 @@ public class TistorySyncExecuter
             // 1. get catId using TistoryAPIMapper
             Long cat_id = this.mapper.getMapByTistoryCatId(catSync.getTistoryCatId());
 
+            // 2. convert from catParent as tistoryCatId into catId using TistoryAPIMapper
+            Long catParent = this.mapper.getMapByTistoryCatId(catSync.getCatParent());
+
             // 2. update Category with catUpdateList
-            Category cat = new Category(cat_id, catSync.getCatName(), catSync.getCatParent(), catSync.getCatVisible());
+            Category cat = new Category(cat_id, catSync.getCatName(), catParent, catSync.getCatVisible());
             Category resCat = catRepo.save(cat);
 
             // 3. update TistoryCategory with catUpdateList
