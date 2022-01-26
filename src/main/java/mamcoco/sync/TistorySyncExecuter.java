@@ -48,9 +48,9 @@ public class TistorySyncExecuter
 
     public void execute(){
         this.createCat();
-//        this.createPost();
-//        this.updatePost();
-//        this.deletePost();
+        this.createPost();
+        this.updatePost();
+        this.deletePost();
         this.updateCat();
         this.deleteCat();
     }
@@ -110,7 +110,9 @@ public class TistorySyncExecuter
             Long cat_id = this.mapper.getMapByTistoryCatId(catSync.getTistoryCatId());
 
             // 2. convert from catParent as tistoryCatId into catId using TistoryAPIMapper
-            Long catParent = this.mapper.getMapByTistoryCatId(catSync.getCatParent());
+            Long catParent = catSync.getCatParent();
+            if (catParent != null)
+                catParent = this.mapper.getMapByTistoryCatId(catParent);
 
             // 2. update Category with catUpdateList
             Category cat = new Category(cat_id, catSync.getCatName(), catParent, catSync.getCatVisible());
@@ -150,7 +152,8 @@ public class TistorySyncExecuter
                     resAPI.getTistoryPostId(),
                     this.info.getTistoryBlogName(),
                     resAPI.getTistoryPostDate(),
-                    resPost.getPostId());
+                    resPost.getPostId(),
+                    resPost);
             TistoryPost resTistoryPost = tPostRepo.save(tPost);
 
             // 4. add TistoryPost-Post table
@@ -192,15 +195,7 @@ public class TistorySyncExecuter
             // 2. get postId using TistoryAPIMapper
             Long postId = this.mapper.getMapByTistoryPostId(postSync.getTistoryPostId());
 
-            // 2. update TistoryPost
-            TistoryPost tPost = new TistoryPost(
-                    resAPI.getTistoryPostId(),
-                    this.info.getTistoryBlogName(),
-                    resAPI.getTistoryPostDate(),
-                    postId);
-            TistoryPost resTistoryPost = tPostRepo.save(tPost);
-
-            // 2. update Post
+            // 3. update Post
             Post post = new Post(
                     resAPI.getCatId(),
                     resAPI.getPostTitle(),
@@ -208,6 +203,15 @@ public class TistorySyncExecuter
                     resAPI.getPostTags(),
                     resAPI.getPostVisible());
             Post resPost = postRepo.save(post);
+
+            // 4. update TistoryPost
+            TistoryPost tPost = new TistoryPost(
+                    resAPI.getTistoryPostId(),
+                    this.info.getTistoryBlogName(),
+                    resAPI.getTistoryPostDate(),
+                    postId,
+                    resPost);
+            TistoryPost resTistoryPost = tPostRepo.save(tPost);
         }
     }
 

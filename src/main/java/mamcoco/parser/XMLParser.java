@@ -11,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class XMLParser
 {
@@ -29,7 +30,7 @@ public class XMLParser
 
     public XMLParser(String xml)
     {
-        this.xml = xml;
+        this.xml = xml.replaceAll("\\u0014", "");
         this.save = null;
         this.build();
     }
@@ -54,11 +55,12 @@ public class XMLParser
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
 
-            InputStream is = new ByteArrayInputStream(xml.getBytes());
+            InputStream is = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
             this.doc = builder.parse(is);
             this.doc.getDocumentElement().normalize();
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
+            System.out.println(this.xml);
         }
         this.current = doc.getDocumentElement();
     }

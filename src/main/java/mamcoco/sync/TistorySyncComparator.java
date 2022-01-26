@@ -98,6 +98,8 @@ public class TistorySyncComparator
     }
 
     private boolean isCatCreate(){
+        if (data.getSizeCatDB() > i_db && getCatDB(i_db).getTistoryCatId() == 0)
+            return false;
         if (data.getSizeCatDB() <= i_db)
             return true;
         if (i_blog < data.getSizeCatBlog())
@@ -106,7 +108,9 @@ public class TistorySyncComparator
     }
 
     private boolean isCatDelete(){
-        if (data.getSizeCatDB() <= i_blog)
+        if (data.getSizeCatDB() > i_db && getCatDB(i_db).getTistoryCatId() == 0)
+            return false;
+        if (data.getSizeCatBlog() <= i_blog)
             return true;
         if (i_db < data.getSizeCatDB())
             return getCatDB(i_db).getTistoryCatId() < getCatBlog(i_blog).getTistoryCatId();
@@ -114,6 +118,8 @@ public class TistorySyncComparator
     }
 
     private boolean isCatUpdate(){
+        if (data.getSizeCatDB() > i_db && getCatDB(i_db).getTistoryCatId() == 0)
+            return false;
         if (i_blog >= data.getSizeCatBlog() || i_db >= data.getSizeCatDB())
             return false;
         if (!getCatDB(i_db).getCatName().equals(getCatBlog(i_blog).getCatName()))

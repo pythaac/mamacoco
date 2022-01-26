@@ -32,11 +32,13 @@ public class TistoryPost {
     public TistoryPost(Long tistoryPostId,
                        String tistoryBlogName,
                        String tistoryPostDate,
-                       Long postId){
+                       Long postId,
+                       Post post){
         this.tistoryPostId = tistoryPostId;
         this.tistoryBlogName = tistoryBlogName;
         this.tistoryPostDate = tistoryPostDate;
         this.postId = postId;
+        this.post = post;
     }
 
     public TistoryPost() {}
