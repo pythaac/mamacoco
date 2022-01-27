@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS Category;
 
 CREATE TABLE IF NOT EXISTS Category
 (
-    cat_id                  BIGINT NOT NULL,
+    cat_id                  BIGINT AUTO_INCREMENT NOT NULL,
     cat_name                VARCHAR(256) NOT NULL,
     cat_parent              BIGINT,
     cat_visible             BIT NOT NULL,
@@ -17,13 +17,12 @@ CREATE TABLE IF NOT EXISTS Category
 
 CREATE TABLE IF NOT EXISTS Post
 (
-    post_id                 BIGINT NOT NULL,
+    post_id                 BIGINT AUTO_INCREMENT NOT NULL,
     cat_id                  BIGINT NOT NULL,
     post_title              VARCHAR(256) NOT NULL,
     post_content            TEXT,
     post_tags               VARCHAR(256),
     post_visible            BIT NOT NULL,
-    post_deleted            BIT NOT NULL,
 
     PRIMARY KEY (post_id),
 
@@ -60,7 +59,7 @@ CREATE TABLE IF NOT EXISTS Tistory_post
     tistory_post_id         BIGINT NOT NULL,
     tistory_blog_name       VARCHAR(64) NOT NULL,
     post_id                 BIGINT NOT NULL,
-    tistory_post_date       DATE NOT NULL,
+    tistory_post_date       DATETIME NOT NULL,
 
     PRIMARY KEY (tistory_post_id),
 

@@ -59,13 +59,12 @@ public class TistoryXMLParser
         Long id = Long.parseLong(parser.get("id"));
         String title = parser.get("title");
         String content = parser.get("content");
-        Long tmpCatId = Long.parseLong(parser.get("categoryId"));
+        Long catId = Long.parseLong(parser.get("categoryId"));
         String tmpVisible = parser.get("visibility");
         String date = parser.get("date");
         String tags = this.postTagsToString(parser.getListByTag("tags"));
 
         // 2. get mapped data
-        Long catId = this.mapper.getMapByTistoryCatId(tmpCatId);
         Integer visible = this.mapper.mapPostVisible(tmpVisible);
 
         // 3. convert into TistoryPostAll
@@ -114,13 +113,12 @@ public class TistoryXMLParser
 
             // 1. get tags
             Long tistory_post_id = Long.parseLong(XMLParser.getElementValueByTag(post, "id"));
-            Long tmp_cat_id = Long.parseLong(XMLParser.getElementValueByTag(post, "categoryId"));
+            Long cat_id = Long.parseLong(XMLParser.getElementValueByTag(post, "categoryId"));
             String tmp_post_visible = XMLParser.getElementValueByTag(post, "visibility");
             String tistory_post_date = XMLParser.getElementValueByTag(post, "date");
 
             // 2. get mapped data
             Integer post_visible = this.mapper.mapPostVisible(tmp_post_visible);
-            Long cat_id = this.mapper.getMapByTistoryCatId(tmp_cat_id);
 
             result.add(new TistoryPostSync(tistory_post_id, cat_id, post_visible, tistory_post_date));
         }

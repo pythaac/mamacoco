@@ -138,16 +138,19 @@ public class TistorySyncExecuter
             String xml = this.api.post(postSync.getTistoryPostId());
             TistoryPostAll resAPI = this.parser.getPost(xml);
 
-            // 2. create Post to obtain postId
+            // 2. convert tistoryCatId into catId
+            Long catId = mapper.getMapByTistoryCatId(resAPI.getCatId());
+
+            // 3. create Post to obtain postId
             Post post = new Post(
-                    resAPI.getCatId(),
+                    catId,
                     resAPI.getPostTitle(),
                     resAPI.getPostContent(),
                     resAPI.getPostTags(),
                     resAPI.getPostVisible());
             Post resPost = postRepo.save(post);
 
-            // 3. create TistoryPost
+            // 4. create TistoryPost
             TistoryPost tPost = new TistoryPost(
                     resAPI.getTistoryPostId(),
                     this.info.getTistoryBlogName(),
@@ -156,7 +159,7 @@ public class TistorySyncExecuter
                     resPost);
             TistoryPost resTistoryPost = tPostRepo.save(tPost);
 
-            // 4. add TistoryPost-Post table
+            // 5. add TistoryPost-Post table
             this.mapper.addPostMapTable(tPost);
         }
     }
@@ -192,19 +195,22 @@ public class TistorySyncExecuter
             String xml = this.api.post(postSync.getTistoryPostId());
             TistoryPostAll resAPI = this.parser.getPost(xml);
 
-            // 2. get postId using TistoryAPIMapper
+            // 2. convert tistoryCatId into catId
+            Long catId = mapper.getMapByTistoryCatId(resAPI.getCatId());
+
+            // 3. get postId using TistoryAPIMapper
             Long postId = this.mapper.getMapByTistoryPostId(postSync.getTistoryPostId());
 
-            // 3. update Post
+            // 4. update Post
             Post post = new Post(
-                    resAPI.getCatId(),
+                    catId,
                     resAPI.getPostTitle(),
                     resAPI.getPostContent(),
                     resAPI.getPostTags(),
                     resAPI.getPostVisible());
             Post resPost = postRepo.save(post);
 
-            // 4. update TistoryPost
+            // 5. update TistoryPost
             TistoryPost tPost = new TistoryPost(
                     resAPI.getTistoryPostId(),
                     this.info.getTistoryBlogName(),

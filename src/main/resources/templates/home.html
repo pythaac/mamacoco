@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MAMACOCO</title>
+</head>
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#status').hide();
+        $('#control').submit(function(){
+            $('#status').show();
+            return true;
+        })
+    })
+</script>
+
+<body>
+    <h1>MAMACOCO</h1>
+    <div id="control">
+        <form id="button" action="/" method="post">
+            <button type="submit">Let's Sync</button>
+        </form>
+    </div>
+    <br/>
+    <div id="status">
+        <img th:src="@{/image/loading.gif}">
+    </div>
+</body>
+</html>
