@@ -149,7 +149,7 @@ public class TistorySyncComparator
     }
 
     private boolean isPostDelete(){
-        if (data.getSizePostBlog() <= i_blog)
+        if (data.getSizePostDB() <= i_blog)
             return true;
         if (i_db < data.getSizePostDB())
             return getPostDB(i_db).getTistoryPostId() < getPostBlog(i_blog).getTistoryPostId();
