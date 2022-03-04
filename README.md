@@ -8,7 +8,12 @@
 - 블로그 동기화
 - 글 내용 제공
 
+## 시스템 구성
+<img src="/image/시스템 구성.png">
+
 ## 모듈
+<img src="/image/모듈 관계도.png">
+
 ### 블로그 API
 - Tistory API  
 Tistory API로 블로그 데이터를 수신
