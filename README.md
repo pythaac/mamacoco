@@ -31,3 +31,11 @@ Tistory 데이터를 XML로 가져왔을 때 파싱하기위해 사용
 데이터베이스와 블로그이 상태를 비교하여 변경사항을 확인
 - TistorySyncExecuter  
 TistorySyncComparator에서 비교한 내용으로 동기화
+
+## 동기화 과정
+
+## TistorySyncRetriever
+<img src="/image/Retriever.png">
+
+## TistorySyncComparator
+<img src="/image/Comparator.png">
