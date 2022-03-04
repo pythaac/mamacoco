@@ -34,8 +34,8 @@ TistorySyncComparator에서 비교한 내용으로 동기화
 
 ## 동기화 과정
 
-## TistorySyncRetriever
+### TistorySyncRetriever
 <img src="/image/Retriever.png">
 
-## TistorySyncComparator
+### TistorySyncComparator
 <img src="/image/Comparator.png">
