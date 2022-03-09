@@ -50,16 +50,39 @@ DB에 저장된 블로그의 글 상태를 가져옵니다.
 Tistory API를 통해 블로그의 카테고리 상태를 가져옵니다.
 - getCategoryDB  
 DB에 저장된 블로그의 카테고리 상태를 가져옵니다.
-<img src="/image/Retriever.png">
+<img src="/image/Retriever.png">  
+&nbsp;  
 
 ### TistorySyncComparator
 
 TistorySyncComparator는 TistorySyncRetriever를 통해 가져온 데이터를 비교합니다. 아래 그림은 블로그 데이터와 DB 데이터를 비교하는 과정을 묘사합니다.  
 - 비교 시작 (Compare Strart)  
-DB와 Blog의 상태는 각각 리스트 형태로 저장됩니다. 비교를 위해 각 리스트를 가리키는 인덱스(_i_db_, _i_blog_)를 가지며, 두 인덱스는 0에서 시작합니다.
+DB와 Blog의 상태는 각각 리스트 형태로 저장됩니다. 비교를 위해 각 리스트를 가리키는 인덱스(i_db, i_blog)를 가지며, 두 인덱스는 0에서 시작합니다.
 - 비교 (Comparing)  
 각 인덱스의 데이터를 비교합니다. 비교 과정에서 i_db만 1 증가, i_blog만 1 증가, 그리고 i_db와 i_blog 모두 1 증가할 수 있습니다.
 - 비교 종료 (Compare End)  
 i_db와 i_blog의 값이 모두 각각 DB 데이터 리스트와 블로그 데이터 리스트의 마지막에 도착하면 비교가 종료됩니다.
+<img src="/image/Comparator.png">  
+&nbsp;  
 
-<img src="/image/Comparator.png">
+다음 그림은 카테고리 데이터를 비교하는 순서도를 나타냅니다.
+- isCatCreate  
+블로그에서 추가된 데이터로, DB에 생성해야할 카테고리로 판단하는 조건입니다.
+- isCatDelete  
+블로그에서 지워진 데이터로, DB에서 삭제해야할 카테고리로 판단하는 조건입니다.
+- isCatUpdate  
+블로그에서 수정된 데이터로, DB에서 수정해야할 카테고리로 판단하는 조건입니다.
+<img src="/image/Comparator_Category.png">  
+&nbsp;  
+
+다음 그림은 글 데이터를 비교하는 순서도를 나타냅니다.
+- isPostCreate  
+블로그에서 추가된 데이터로, DB에 생성해야할 글로 판단하는 조건입니다.
+- isPostDelete  
+블로그에서 지워진 데이터로, DB에서 삭제해야할 글로 판단하는 조건입니다.
+- isPostUpdate  
+블로그에서 수정된 데이터로, DB에서 수정해야할 글로 판단하는 조건입니다.
+<img src="/image/Comparator_Post.png">  
+&nbsp;  
+
+
