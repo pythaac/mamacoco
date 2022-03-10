@@ -15,6 +15,10 @@
 <img src="/image/시스템 구성.png">  
 &nbsp;  
 
+## 데이터베이스 스키마
+<img src="/image/scheme.png">  
+&nbsp;  
+
 ## 모듈
 <img src="/image/모듈 관계도.png">
 
