@@ -85,4 +85,28 @@ i_db와 i_blog의 값이 모두 각각 DB 데이터 리스트와 블로그 데�
 <img src="/image/Comparator_Post.png">  
 &nbsp;  
 
+### TistorySyncExecuter
 
+TistorySyncExecuter는 TistorySyncComparator를 통해 가져온 데이터를 바탕으로 동기화를 진행합니다. 동기화는 아래 순서대로 진행합니다.
+1) createCat  
+카테고리를 DB에 생성합니다.
+2) createPost  
+글을 DB에 생성합니다.
+3) updatePost  
+글을 DB에 갱신합니다.
+4) deletePost  
+글을 DB에서 삭제합니다.
+5) updateCat  
+카테고리를 DB에 갱신합니다.
+6) deleteCat  
+카테고리를 DB에서 삭제합니다.  
+&nbsp;  
+
+다음 그림은 TistorySyncExcuter의 동기화 과정을 나타냅니다.
+<img src="/image/Executer1.png">  
+<img src="/image/Executer2.png">  
+<img src="/image/Executer3.png">  
+<img src="/image/Executer4.png">  
+<img src="/image/Executer5.png">  
+<img src="/image/Executer6.png">  
+&nbsp;  
