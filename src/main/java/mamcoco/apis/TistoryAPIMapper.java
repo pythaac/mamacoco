@@ -5,40 +5,50 @@ import mamcoco.database.data.TistoryInfo;
 import mamcoco.database.data.TistoryPost;
 import mamcoco.database.repository.TistoryCategoryRepository;
 import mamcoco.database.repository.TistoryPostRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+@Component
 public class TistoryAPIMapper
 {
     private final TistoryCategoryRepository tCatRepo;
     private final TistoryPostRepository tPostRepo;
-    private final TistoryInfo info;
+    private TistoryInfo info;
     private Hashtable<Long, Long> catMapTable;
     private Hashtable<Long, Long> postMapTable;
 
-    public TistoryAPIMapper(TistoryInfo info, TistoryCategoryRepository tCatRepo, TistoryPostRepository tPostRepo){
-        this.info = info;
+    @Autowired
+    public TistoryAPIMapper(TistoryCategoryRepository tCatRepo, TistoryPostRepository tPostRepo){
         this.tCatRepo = tCatRepo;
         this.tPostRepo = tPostRepo;
-        this.updateAllCatMapTable();
-        this.updateAllPostMapTable();
     };
 
+    public void init(){
+        this.updateAllCatMapTable();
+        this.updateAllPostMapTable();
+    }
+
+    public void setInfo(TistoryInfo info) {
+        this.info = info;
+    }
+
     /*
-        <TistoryAPI data>
-            $entries
-                the number of posts in the category
-        <Database>
-            0   :   invisible
-            1   :   visible
-        <Mappings>
-            if $entries == 0 then 0
-            else then 1
-        <Description>
-            invisible(0) if category has no post
-            visible(1) if category has posts at least 1
-     */
+            <TistoryAPI data>
+                $entries
+                    the number of posts in the category
+            <Database>
+                0   :   invisible
+                1   :   visible
+            <Mappings>
+                if $entries == 0 then 0
+                else then 1
+            <Description>
+                invisible(0) if category has no post
+                visible(1) if category has posts at least 1
+         */
     public Integer mapCategoryVisible(String entries){
         return entries.equals("0")? 0 : 1;
     }

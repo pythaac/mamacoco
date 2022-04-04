@@ -7,26 +7,30 @@ import mamcoco.database.repository.TistoryCategoryRepository;
 import mamcoco.database.repository.TistoryPostRepository;
 import mamcoco.parser.TistoryXMLParser;
 import mamcoco.sync.data.TistorySyncData;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 public class TistorySyncRetriever
 {
-    private TistorySyncData data;
+    private final TistorySyncData data;
 
     private final TistoryInfo info;
     private final TistoryCategoryRepository tCatRepo;
     private final TistoryPostRepository tPostRepo;
 
     private final TistoryAPI api;
-    private final TistoryAPIMapper mapper;
     private final TistoryXMLParser xmlParser;
 
-    public TistorySyncRetriever(TistoryInfo info, TistoryCategoryRepository tCatRepo, TistoryPostRepository tPostRepo){
+    public TistorySyncRetriever(TistoryInfo info,
+                                TistoryCategoryRepository tCatRepo,
+                                TistoryPostRepository tPostRepo,
+                                TistoryAPI api,
+                                TistoryXMLParser xmlParser){
         this.info = info;
         this.tCatRepo = tCatRepo;
         this.tPostRepo = tPostRepo;
-        this.api = new TistoryAPI(info);
-        this.mapper = new TistoryAPIMapper(info, tCatRepo, tPostRepo);
-        this.xmlParser = new TistoryXMLParser(this.mapper);
+        this.api = api;
+        this.xmlParser = xmlParser;
 
         this.data = new TistorySyncData();
     }
