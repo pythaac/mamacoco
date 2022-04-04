@@ -13,6 +13,6 @@ import java.util.ArrayList;
 public interface CategoryRepository extends CrudRepository<Category, Long>
 {
     Category save(Category cat);
-    Category deleteByCatId(Long catId);
+    Long deleteByCatId(Long catId);
     ArrayList<Category> findAll();
 }

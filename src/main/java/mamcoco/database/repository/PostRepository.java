@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public interface PostRepository extends CrudRepository<Post, Long>
 {
     Post save(Post post);
-    Post deleteByPostId(Long postId);
+    Long deleteByPostId(Long postId);
     ArrayList<Post> findAllByCatId(Long catId);
     Post findPostByPostId(Long postId);
 }

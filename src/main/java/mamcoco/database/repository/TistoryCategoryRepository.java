@@ -16,7 +16,7 @@ import java.util.ArrayList;
 @Transactional(propagation = Propagation.REQUIRED)
 public interface TistoryCategoryRepository extends CrudRepository<TistoryCategory, Long> {
     TistoryCategory save(TistoryCategory tCat);
-    TistoryCategory deleteByTistoryCatId(Long tCatId);
+    Long deleteByTistoryCatId(Long tCatId);
 
     // all categories for user
     ArrayList<TistoryCategory> findTistoryCategoriesByTistoryBlogName(String tistory_blog_name);

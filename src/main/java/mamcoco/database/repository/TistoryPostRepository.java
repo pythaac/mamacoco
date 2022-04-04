@@ -16,7 +16,7 @@ import java.util.ArrayList;
 @Transactional(propagation = Propagation.REQUIRED)
 public interface TistoryPostRepository extends CrudRepository<TistoryPost, Long> {
     TistoryPost save(TistoryPost tPost);
-    TistoryPost deleteByTistoryPostId(Long tistoryPostId);
+    Long deleteByTistoryPostId(Long tistoryPostId);
 
     // all posts for user
     ArrayList<TistoryPost> findTistoryPostsByTistoryBlogName(String tistoryBlogName);
