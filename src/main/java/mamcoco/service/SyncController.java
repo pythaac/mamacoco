@@ -29,13 +29,19 @@ public class SyncController
     private final TistoryAPIMapper mapper;
     private final TistoryXMLParser parser;
 
+    private final TistorySyncExecuter executer;
+
     @Autowired
     public SyncController(
             TistoryinfoRepository repo,
             TistoryCategoryRepository tCatRepo,
             TistoryPostRepository tPostRepo,
             CategoryRepository catRepo,
-            PostRepository postRepo)
+            PostRepository postRepo,
+            TistoryAPI api,
+            TistoryAPIMapper mapper,
+            TistoryXMLParser parser,
+            TistorySyncExecuter executer)
     {
         this.tCatRepo = tCatRepo;
         this.tPostRepo = tPostRepo;
@@ -43,9 +49,15 @@ public class SyncController
         this.catRepo = catRepo;
         this.info = repo.findTistoryInfoByTistoryBlogName(blog_name);
 
-        this.api = new TistoryAPI(info);
-        this.mapper = new TistoryAPIMapper(this.info, this.tCatRepo, this.tPostRepo);
-        this.parser = new TistoryXMLParser(this.mapper);
+        this.api = api;
+        api.setTistory_info(info);
+        this.mapper = mapper;
+        mapper.setInfo(info);
+        mapper.init();
+        this.parser = parser;
+
+        this.executer = executer;
+        executer.setInfo(info);
     }
 
     @GetMapping
@@ -57,7 +69,12 @@ public class SyncController
     @ResponseBody
     public String sync()
     {
-        TistorySyncRetriever retriever = new TistorySyncRetriever(this.info, this.tCatRepo, this.tPostRepo);
+        TistorySyncRetriever retriever = new TistorySyncRetriever(
+                this.info,
+                this.tCatRepo,
+                this.tPostRepo,
+                this.api,
+                this.parser);
         retriever.retrieveAll();
 
         TistorySyncComparator comparator = new TistorySyncComparator(retriever.getData(), this.mapper);
@@ -72,16 +89,7 @@ public class SyncController
         Integer numPostUpdate = data.getSizePostUpdateList();
         Integer numPostDelete = data.getSizePostDeleteList();
 
-        TistorySyncExecuter executer = new TistorySyncExecuter(
-                data,
-                this.info,
-                this.catRepo,
-                this.postRepo,
-                this.tCatRepo,
-                this.tPostRepo,
-                this.api,
-                this.parser,
-                this.mapper);
+        executer.setData(data);
         executer.execute();
 
         return "[Done]<br/>" +

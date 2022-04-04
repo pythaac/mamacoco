@@ -4,15 +4,19 @@ import mamcoco.apis.TistoryAPIMapper;
 import mamcoco.database.data.TistoryCategorySync;
 import mamcoco.database.data.TistoryPostAll;
 import mamcoco.database.data.TistoryPostSync;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 
+@Component
 public class TistoryXMLParser
 {
     private final TistoryAPIMapper mapper;
 
+    @Autowired
     public TistoryXMLParser(TistoryAPIMapper mapper){
         this.mapper = mapper;
     }
@@ -91,6 +95,7 @@ public class TistoryXMLParser
             // 1. get tags
             Long id = Long.parseLong(XMLParser.getElementValueByTag(category, "id"));
             String name = XMLParser.getElementValueByTag(category, "name");
+            // !!!!!! WARN : this element is tistoryCategoryId, NOT categoryId
             String tmpParent = XMLParser.getElementValueByTag(category, "parent");
             String tmpVisible = XMLParser.getElementValueByTag(category, "entries");
 

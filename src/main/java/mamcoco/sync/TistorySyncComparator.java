@@ -5,6 +5,8 @@ import mamcoco.database.data.TistoryCategorySync;
 import mamcoco.database.data.TistoryPostSync;
 import mamcoco.sync.data.TistorySyncData;
 import mamcoco.sync.data.TistorySyncUpdateData;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 public class TistorySyncComparator
 {
