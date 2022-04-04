@@ -111,13 +111,13 @@ public class TistorySyncExecuter
     public void deleteCat(TistoryCategorySync catSync)
     {
         // 1. delete TistoryCategory first due to catId
-        TistoryCategory resTistoryCat = tCatRepo.deleteByTistoryCatId(catSync.getTistoryCatId());
+        Long deletedTistoryCatCount = tCatRepo.deleteByTistoryCatId(catSync.getTistoryCatId());
 
         // 2. delete Category using catId
-        Category resCat = catRepo.deleteByCatId(resTistoryCat.getCatId());
+        Long deletedCatCount = catRepo.deleteByCatId(this.mapper.getMapByTistoryCatId(catSync.getTistoryCatId()));
 
         // 3. delete TistoryCat-Category map
-        this.mapper.deleteCatMapTable(resTistoryCat.getTistoryCatId());
+        this.mapper.deleteCatMapTable(catSync.getTistoryCatId());
     }
 
     public void updateCats()
@@ -203,13 +203,13 @@ public class TistorySyncExecuter
     public void deletePost(TistoryPostSync postSync)
     {
         // 1. delete TistoryPost first due to postId
-        TistoryPost resTistoryPost = tPostRepo.deleteByTistoryPostId(postSync.getTistoryPostId());
+        Long deletedTistoryPostCount = tPostRepo.deleteByTistoryPostId(postSync.getTistoryPostId());
 
         // 2. delete Post using postId
-        Post resPost = postRepo.deleteByPostId(resTistoryPost.getPostId());
+        Long deletedPostCount = postRepo.deleteByPostId(this.mapper.getMapByTistoryPostId(postSync.getTistoryPostId()));
 
         // 3. delete TistoryPost-Post table
-        this.mapper.deletePostMapTable(resTistoryPost.getPostId());
+        this.mapper.deletePostMapTable(postSync.getTistoryPostId());
     }
 
     public void updatePosts()
