@@ -10,13 +10,22 @@ import mamcoco.sync.TistorySyncExecuter;
 import mamcoco.sync.TistorySyncRetriever;
 import mamcoco.sync.data.TistorySyncUpdateData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import static mamcoco.MamacocoApplication.blog_name;
 
 @Controller
-@RequestMapping(value="/")
+@EnableScheduling
 public class SyncController
 {
     private final TistoryCategoryRepository tCatRepo;
@@ -60,12 +69,12 @@ public class SyncController
         executer.setInfo(info);
     }
 
-    @GetMapping
+    @GetMapping(value="/")
     public String home(){
         return "home";
     }
 
-    @PostMapping
+    @PostMapping(value="/")
     @ResponseBody
     public String sync()
     {
@@ -92,12 +101,30 @@ public class SyncController
         executer.setData(data);
         executer.execute();
 
-        return "[Done]<br/>" +
+        String result = "[Done]<br/>" +
                 "Created Category : " + numCatCreate + "<br/>" +
                 "Updated Category : " + numCatUpdate + "<br/>" +
                 "Deleted Category : " + numCatDelete + "<br/>" +
                 "Created Post : " + numPostCreate + "<br/>" +
                 "Updated Post : " + numPostUpdate + "<br/>" +
                 "Deleted Post : " + numPostDelete + "<br/>";
+        this.log(result);
+
+        return result;
+    }
+
+    @Scheduled(cron = "0 0 6 * * *")
+    public void autoSync(){
+        this.sync();
+    }
+
+    private void log(String result){
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        String file = "/home/ubuntu/mamacoco/" + Timestamp.valueOf(now).toString();
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
+            writer.write(result);
+        } catch(IOException | RuntimeException e){
+            e.printStackTrace();
+        }
     }
 }
